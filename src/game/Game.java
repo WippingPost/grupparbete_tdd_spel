@@ -41,7 +41,7 @@ public class Game extends JPanel implements Runnable {
 		lastTimeUpdate = System.currentTimeMillis();
 
 
-		// The game loop
+		// The game loop...
 		while (running) {
 
 			// Timer for the fpsControl() method
@@ -61,6 +61,7 @@ public class Game extends JPanel implements Runnable {
 	}
 
 
+
 	@Override
 	public void paint(Graphics graphics) {
 
@@ -70,17 +71,34 @@ public class Game extends JPanel implements Runnable {
 		graphics2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
-		graphics2d.setColor(Color.BLACK);
 		// Draw current fps
+		graphics2d.setColor(Color.BLACK);
 		graphics2d.drawString("fps = " + fps, 10, 10);
+
+		// TODO Draw walls
+		graphics2d.setColor(Color.DARK_GRAY);
+
+		// TODO Draw treasures
+		graphics2d.setColor(Color.ORANGE);
+
+		// TODO Draw Lasers
+		graphics2d.setColor(Color.RED);
+
+		// TODO Draw Exit door if active
+		graphics2d.setColor(Color.GREEN);
+
 		// Draw player
+		graphics2d.setColor(Color.BLACK);
 		graphics2d.fillRect(player.getHitBox().x,
 				player.getHitBox().y,
 				player.getHitBox().width,
 				player.getHitBox().height);
 	}
+	// End paint()
 
 
+
+	// Get player input method
 	private void getPlayerInput() {
 
 		player.setDirection(inputManager.getPlayerInput());
@@ -89,12 +107,13 @@ public class Game extends JPanel implements Runnable {
 
 
 
+	// Update method
 	private void updateGame() {
 
-		// TODO Collision detection
+		// Collision detection
 		// TODO Did player hit a laser?
 		// TODO Did player hit a wall?
-		// TODO Did player pick up the last treasure? If so, spawn exit door!
+		// TODO Did player pick up the last treasure? If so, activate exit door!
 		// TODO Did player exit the game?
 		// ...
 
@@ -105,6 +124,8 @@ public class Game extends JPanel implements Runnable {
 	}
 
 
+
+	// Draw method
 	private void drawGame() {
 
 		// fps counter
@@ -121,6 +142,8 @@ public class Game extends JPanel implements Runnable {
 	}
 
 
+
+	// Method to control the game speed and limit frames per second
 	private void fpsControl(long thisFrameTimeStart) {
 
         long thisFrameTime = System.currentTimeMillis() - thisFrameTimeStart;
@@ -133,9 +156,6 @@ public class Game extends JPanel implements Runnable {
             } catch (InterruptedException e){
             }
         }
-
-		// TODO
-
 	}
 
 
