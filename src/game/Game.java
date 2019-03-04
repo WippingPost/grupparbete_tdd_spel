@@ -24,14 +24,13 @@ public class Game extends JPanel implements Runnable {
 	public Game(InputManager inputManager) {
 
 		// TODO Create game objects and levels
-
 		player = new Player(20, 20);
+		setBackground(Color.GRAY);
 		this.inputManager = inputManager;
 		gameThread = new Thread(this);
 		gameThread.start();
 		frameCounter = 0;
 		running = true;
-
 	}
 
 
@@ -41,9 +40,14 @@ public class Game extends JPanel implements Runnable {
 
 		lastTimeUpdate = System.currentTimeMillis();
 
+
+		// The game loop
 		while (running) {
 
+			// Timer for the fpsControl() method
+			// So it knows how long it takes to finish each frame
 			thisFrameTimeStart = System.currentTimeMillis();
+
 			getPlayerInput();
 
 			updateGame();
