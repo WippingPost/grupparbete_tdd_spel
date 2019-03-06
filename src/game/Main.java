@@ -9,7 +9,7 @@ public class Main {
 		JFrame frame = new JFrame("Grupprojekt_Spel");
 		InputManager inputManager = new InputManager();
 		Game game = new Game(inputManager);
-		frame.setSize(900, 900);
+		frame.setSize(905, 930);
 		frame.add(game);
 		frame.setResizable(false);
 		frame.setVisible(true);

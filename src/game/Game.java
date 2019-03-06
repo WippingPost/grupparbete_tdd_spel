@@ -3,7 +3,9 @@ package game;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.RenderingHints;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
@@ -12,34 +14,55 @@ import javax.swing.JPanel;
 public class Game extends JPanel implements Runnable {
 
 	private Thread gameThread = null;
-	private boolean running;
-	private int maxFps = 60;
-	private int fps, frameCounter;
-	private long maxFrameTime = 1000 / maxFps;
+    private boolean running, levelCleared, gameOver;
+	private int maxFps = 60;	// Target frame rate
+	private long maxFrameTime = 1000 / maxFps;	 // Frame time at maxFps
+	private int fps, frameCounter, level;
 	private long thisFrameTimeStart, lastTimeUpdate;
 	private Player player;
 	private InputManager inputManager;
+	private LevelManager levelManager;
+	private Wall wall;
+	private Treasure treasure;
+	private ExitDoor exitDoor;
+	private Laser laser;
+
+	// ArrayLists of game objects
+	private ArrayList<Treasure> treasureList = new ArrayList<>();
+	private ArrayList<Wall> wallList= new ArrayList<>();
+	private ArrayList<Laser> laserList= new ArrayList<>();
+
 
 	// Constructor
 	public Game(InputManager inputManager) {
 
 		// TODO Create game objects and levels
-		player = new Player(20, 20);
+
+		levelManager = new LevelManager();
 		setBackground(Color.GRAY);
-		this.inputManager = inputManager;
+		this.inputManager = inputManager;	// Used to handle player input
+
+		level = 1;	// Setting first level number
+		frameCounter = 0;	// Counting frames per second
+		running = true;
+		gameOver = false;
+		levelCleared = false;
+
+		// Loading the level and it's game objects into memory
+		loadNextLevel(level);
+
+		// Creating new thread and starting it
 		gameThread = new Thread(this);
 		gameThread.start();
-		frameCounter = 0;
-		running = true;
+
 	}
 
 
-
+	// The game loop
 	@Override
 	public void run() {
 
 		lastTimeUpdate = System.currentTimeMillis();
-
 
 		// The game loop...
 		while (running) {
@@ -48,20 +71,20 @@ public class Game extends JPanel implements Runnable {
 			// So it knows how long it takes to finish each frame
 			thisFrameTimeStart = System.currentTimeMillis();
 
-			getPlayerInput();
+			getPlayerInput();	// Did the player press any keys?
 
-			updateGame();
+			updateGame();		// Updating logics, positions etc...
 
-			drawGame();
+			drawGame();			// Drawing the game objects
 
-			fpsControl(thisFrameTimeStart);
+			fpsControl(thisFrameTimeStart);		// Handler for frames per second
 
 		}
 
 	}
 
 
-
+	// This is the method that draws everything to the screen
 	@Override
 	public void paint(Graphics graphics) {
 
@@ -71,28 +94,33 @@ public class Game extends JPanel implements Runnable {
 		graphics2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
-		// Draw current fps
-		graphics2d.setColor(Color.BLACK);
-		graphics2d.drawString("fps = " + fps, 10, 10);
+		// TODO Draw the game board
 
 		// TODO Draw walls
-		graphics2d.setColor(Color.DARK_GRAY);
-
+		for (Wall wall : wallList) {
+			graphics2d.setColor(wall.getColor());
+			graphics2d.fill(wall.getHitBox());
+		}
 		// TODO Draw treasures
-		graphics2d.setColor(Color.ORANGE);
+		for (Treasure treasure : treasureList) {
+			graphics2d.setColor(treasure.getColor());
+			graphics2d.fill(treasure.getHitBox());
+		}
+
 
 		// TODO Draw Lasers
 		graphics2d.setColor(Color.RED);
 
 		// TODO Draw Exit door if active
-		graphics2d.setColor(Color.GREEN);
+		graphics2d.setColor(exitDoor.getColor());
 
 		// Draw player
-		graphics2d.setColor(Color.BLACK);
-		graphics2d.fillRect(player.getHitBox().x,
-				player.getHitBox().y,
-				player.getHitBox().width,
-				player.getHitBox().height);
+		graphics2d.setColor(player.getColor());
+		graphics2d.fill(player.getHitBox());
+
+		// Draw current fps
+		graphics2d.setColor(Color.WHITE);
+		graphics2d.drawString("" + fps, 7, 17);
 	}
 	// End paint()
 
@@ -138,6 +166,50 @@ public class Game extends JPanel implements Runnable {
 
 		// Draw the scene
 		repaint();
+
+	}
+
+
+
+	// Loading the level and its game objects
+	private void loadNextLevel(int level) {
+
+		int gridSize = 30;
+		int x = 0;
+		int y = 0;
+
+		// Clearing the lists
+		wallList.clear();
+		treasureList.clear();
+		laserList.clear();
+
+		// Loading all game objects into separate lists
+		levelManager.setNextLevel(level);
+
+		// Populating lists with new game objects
+		// The walls
+		for (Point point : levelManager.getWalls()) {
+			x = point.x * gridSize;
+			y = point.y * gridSize;
+			wallList.add(new Wall(new Point(x, y)));
+		}
+		// The treasures
+		for (Point point : levelManager.getTreasures()) {
+			x = point.x * gridSize;
+			y = point.y * gridSize;
+			treasureList.add(new Treasure(new Point(x, y)));
+		}
+		// TODO The lasers
+
+		// Exit door
+		x = levelManager.getExitDoor().x * gridSize;
+		y = levelManager.getExitDoor().y * gridSize;
+		exitDoor = new ExitDoor(new Point(x, y));
+
+		// Player
+		x = levelManager.getPlayer().x * gridSize;
+		y = levelManager.getPlayer().y * gridSize;
+		player = new Player(new Point(x, y));
 
 	}
 
