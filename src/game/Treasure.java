@@ -15,7 +15,7 @@ public class Treasure {
 	// Constructor
 	public Treasure(Point point) {
 
-		// Setting the size and position of the treasure. Placing it 5 pixels towards the center of grid (gridsize = 20x30)
+		// Setting the size and position of the treasure. Placing it 5 pixels towards the center of grid (gridsize = 30x30)
 		hitBox = new Rectangle(point.x + 5, point.y + 5, 20, 20);
 
 		visible = true;		// True as long as not picked up by player

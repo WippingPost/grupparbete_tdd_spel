@@ -13,7 +13,7 @@ public class Wall {
 
 	public Wall(Point point) {
 
-		// Setting the size and position of the wall. Placing it 2 pixels towards the center of grid (gridsize = 20x30)
+		// Setting the size and position of the wall. Placing it 2 pixels towards the center of grid (gridsize = 30x30)
 		hitBox = new Rectangle(point.x + 2, point.y + 2, 26, 26);
 
 	}

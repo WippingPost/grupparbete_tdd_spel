@@ -5,26 +5,26 @@ import java.awt.event.KeyListener;
 
 public class InputManager implements KeyListener {
 
-	private String playerInput = "idle";
+	private Direction playerInput = Direction.IDLE;
 
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			playerInput = "right";
+			playerInput = Direction.RIGHT;
 		}
 
 		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-			playerInput = "left";
+			playerInput = Direction.LEFT;
 		}
 
 		if (e.getKeyCode() == KeyEvent.VK_UP) {
-			playerInput = "up";
+			playerInput = Direction.UP;
 		}
 
 		if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-			playerInput = "down";
+			playerInput = Direction.DOWN;
 		}
 
 	}
@@ -32,20 +32,20 @@ public class InputManager implements KeyListener {
 	@Override
 	public void keyReleased(KeyEvent e) {
 
-		if ((playerInput == "right") && (e.getKeyCode() == KeyEvent.VK_RIGHT)) {
-			playerInput = "idle";
+		if ((playerInput == Direction.RIGHT) && (e.getKeyCode() == KeyEvent.VK_RIGHT)) {
+			playerInput = Direction.IDLE;
 		}
 
-		if ((playerInput == "left") && (e.getKeyCode() == KeyEvent.VK_LEFT)) {
-			playerInput = "idle";
+		if ((playerInput == Direction.LEFT) && (e.getKeyCode() == KeyEvent.VK_LEFT)) {
+			playerInput = Direction.IDLE;
 		}
 
-		if ((playerInput == "up") && (e.getKeyCode() == KeyEvent.VK_UP)) {
-			playerInput = "idle";
+		if ((playerInput == Direction.UP) && (e.getKeyCode() == KeyEvent.VK_UP)) {
+			playerInput = Direction.IDLE;
 		}
 
-		if ((playerInput == "down") && (e.getKeyCode() == KeyEvent.VK_DOWN)) {
-			playerInput = "idle";
+		if ((playerInput == Direction.DOWN) && (e.getKeyCode() == KeyEvent.VK_DOWN)) {
+			playerInput = Direction.IDLE;
 		}
 
 	}
@@ -56,7 +56,7 @@ public class InputManager implements KeyListener {
 
 	}
 
-	public String getPlayerInput() {
+	public Direction getPlayerInput() {
 		return playerInput;
 	}
 

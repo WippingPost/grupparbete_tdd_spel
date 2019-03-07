@@ -9,7 +9,7 @@ public class Player {
 
 	private Rectangle hitBox;
 	private int speed, x, y;
-	private String playerDirection;
+	private Direction playerDirection;
 	//Player color
 	private Color color = new Color(0,  0,  0);		// Black
 
@@ -20,7 +20,7 @@ public class Player {
 		x = point.x;
 		y = point.y;
 		speed = 120;  // pixels per second
-		playerDirection = "idle";
+		playerDirection = Direction.IDLE;
 		hitBox = new Rectangle(x, y, 30, 30);
 
 	}
@@ -31,23 +31,23 @@ public class Player {
 
 		switch (playerDirection) {
 
-		case "left":
+		case LEFT:
 			x = x - (int)((float)speed / fps);
 			break;
 
-		case "right":
+		case RIGHT:
 			x = x + (int)((float)speed / fps);
 			break;
 
-		case "down":
+		case DOWN:
 			y = y + (int)((float)speed / fps);
 			break;
 
-		case "up":
+		case UP:
 			y = y - (int)((float)speed / fps);
 			break;
 
-		case "idle":
+		case IDLE:
 			// Do nothing
 			break;
 		}
@@ -55,10 +55,9 @@ public class Player {
 
 		// Update player position
 		hitBox.setLocation(x, y);
-
 	}
 
-	public void setDirection(String direction) {
+	public void setDirection(Direction direction) {
 		playerDirection = direction;
 	}
 

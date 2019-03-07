@@ -54,8 +54,9 @@ public class Game extends JPanel implements Runnable {
 		// Creating new thread and starting it
 		gameThread = new Thread(this);
 		gameThread.start();
-
 	}
+
+
 
 
 	// The game loop

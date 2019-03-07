@@ -16,7 +16,7 @@ public class ExitDoor {
 	// Creating door at position
 	public ExitDoor(Point point) {
 
-		// Setting the size and position of the door. Placing it 3 pixels towards the center of grid (gridsize = 20x30)
+		// Setting the size and position of the door. Placing it 3 pixels towards the center of grid (gridsize = 30x30)
 		hitBox = new Rectangle(point.x + 3, point.y + 3, 24, 24);
 
 		isActive= false;
