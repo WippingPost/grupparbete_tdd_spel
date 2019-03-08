@@ -25,7 +25,7 @@ public class ExitDoor {
 
 
 	// When player has picked up all collectables
-	public void setPickedUp() {
+	public void setActive() {
 		isActive = true;
 	}
 

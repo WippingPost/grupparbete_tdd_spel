@@ -1,10 +1,12 @@
 package game;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -26,6 +28,9 @@ public class Game extends JPanel implements Runnable {
 	private Treasure treasure;
 	private ExitDoor exitDoor;
 	private Laser laser;
+	private Line2D line;
+	private final BasicStroke BRUSH_WIDTH = new BasicStroke(2f);	// The width of the laser line
+
 
 	// ArrayLists of game objects
 	private ArrayList<Treasure> treasureList = new ArrayList<>();
@@ -95,22 +100,34 @@ public class Game extends JPanel implements Runnable {
 		graphics2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
-		// TODO Draw the game board
-
-		// TODO Draw walls
+		// Draw the game board
+		// Draw walls
 		for (Wall wall : wallList) {
 			graphics2d.setColor(wall.getColor());
 			graphics2d.fill(wall.getHitBox());
 		}
-		// TODO Draw treasures
+
+		// Draw treasures
 		for (Treasure treasure : treasureList) {
 			graphics2d.setColor(treasure.getColor());
 			graphics2d.fill(treasure.getHitBox());
 		}
 
 
-		// TODO Draw Lasers
-		graphics2d.setColor(Color.RED);
+		// Draw Lasers
+		graphics2d.setStroke(BRUSH_WIDTH);	// The width of the laser line
+		for (Laser laser : laserList) {
+			// Only draw the laser if it is active
+			if (laser.isActive()) {
+				graphics2d.setColor(laser.getColor());
+				line = new Line2D.Float(laser.getPoint1(), laser.getPoint2());
+				graphics2d.draw(line);
+			}
+			// Then draw the anchor points of the laser
+			graphics2d.setColor(Color.BLACK);
+			graphics2d.fillOval(laser.getPoint1().x - 5, laser.getPoint1().y - 5, 10, 10);
+			graphics2d.fillOval(laser.getPoint2().x - 5, laser.getPoint2().y - 5, 10, 10);
+		}
 
 		// TODO Draw Exit door if active
 		graphics2d.setColor(exitDoor.getColor());
@@ -147,7 +164,9 @@ public class Game extends JPanel implements Runnable {
 		// ...
 
 		// TODO Update laser
-
+		for (Laser laser : laserList) {
+			laser.update();
+		}
 		// Update player
 		player.update(fps);
 	}
@@ -201,6 +220,17 @@ public class Game extends JPanel implements Runnable {
 			treasureList.add(new Treasure(new Point(x, y)));
 		}
 		// TODO The lasers
+		Point point1;
+		Point point2;
+		for (int i = 0; i < levelManager.getLasers().size(); i = i + 2) {	// Getting the points of the lasers as pairs, therefore increment by 2
+			point1 = levelManager.getLasers().get(i);
+			point1.x = (point1.x * gridSize);
+			point1.y = (point1.y * gridSize);
+			point2 = levelManager.getLasers().get(i + 1);
+			point2.x = (point2.x * gridSize);
+			point2.y = (point2.y * gridSize);
+			laserList.add(new Laser(point1, point2));
+		}
 
 		// Exit door
 		x = levelManager.getExitDoor().x * gridSize;

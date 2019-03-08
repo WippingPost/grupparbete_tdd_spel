@@ -21,11 +21,15 @@ public class PlayerTest {
 
 	Player player;
 
+	// Skapar en ny Player vid koordinaterna x=500, y=500
 	@Before
 	public void setUp() throws Exception {
 		player = new Player(new Point(500, 500));
 	}
 
+
+
+	// Testar så att Player verkligen initieras korrekt
 	@Test
 	public void testPlayerInit() {
 
@@ -38,6 +42,10 @@ public class PlayerTest {
 		assertEquals(500, actualCoordinateY);
 	}
 
+
+
+	// Testar så att Player flyttas åt rätt håll
+	// Vid olika direction inputs
 	@Test
 	@Parameters({
 		"LEFT, 498, 500",
@@ -55,6 +63,5 @@ public class PlayerTest {
 		// Assert
 		assertEquals(expectedX, actual.x);
 		assertEquals(expectedY, actual.y);
-
 	}
 }

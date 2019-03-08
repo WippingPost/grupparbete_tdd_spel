@@ -3,6 +3,7 @@ package game;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.geom.Line2D;
 
 
 public class Player {
@@ -21,8 +22,7 @@ public class Player {
 		y = point.y;
 		speed = 120;  // pixels per second
 		playerDirection = Direction.IDLE;
-		hitBox = new Rectangle(x, y, 30, 30);
-
+		hitBox = new Rectangle(x, y, 26, 26);
 	}
 
 
@@ -57,17 +57,31 @@ public class Player {
 		hitBox.setLocation(x, y);
 	}
 
+
+	// Collision detection against other hitbox rectangle
+	public boolean collideWith(Rectangle other) {
+		return hitBox.intersects(other);
+	}
+
+	// Collision detection against Line object (Laser)
+	public boolean collideWith(Line2D other) {
+		return hitBox.intersectsLine(other);
+	}
+
+
+	// Sets player movement direction
 	public void setDirection(Direction direction) {
 		playerDirection = direction;
 	}
 
 
-
+	// Returns player hitbox
 	public Rectangle getHitBox() {
 		return hitBox;
 	}
 
 
+	// Returns players color
 	public Color getColor() {
 		return color;
 	}
