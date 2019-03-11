@@ -13,10 +13,10 @@ public class Laser {
 	private long deltaTime, thisTime;
 	private Color color = new Color(255, 0, 0);
 	private Random random = new Random();
-	private final int MAX_ON_TIME = 6000;
-	private final int MIN_ON_TIME = 2000;
-	private final int MAX_OFF_TIME = 3500;
-	private final int MIN_OFF_TIME = 1500;
+	private final int MAX_ON_TIME = 4000;
+	private final int MIN_ON_TIME = 1000;
+	private final int MAX_OFF_TIME = 2000;
+	private final int MIN_OFF_TIME = 1000;
 
 	public Laser(Point point1, Point point2) {
 

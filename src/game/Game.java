@@ -24,10 +24,7 @@ public class Game extends JPanel implements Runnable {
 	private Player player;
 	private InputManager inputManager;
 	private LevelManager levelManager;
-	private Wall wall;
-	private Treasure treasure;
 	private ExitDoor exitDoor;
-	private Laser laser;
 	private Line2D line;
 	private final BasicStroke BRUSH_WIDTH = new BasicStroke(2f);	// The width of the laser line
 
@@ -49,7 +46,6 @@ public class Game extends JPanel implements Runnable {
 
 		level = 1;	// Setting first level number
 		frameCounter = 0;	// Counting frames per second
-		running = true;
 		gameOver = false;
 		levelCleared = false;
 
@@ -68,7 +64,8 @@ public class Game extends JPanel implements Runnable {
 	@Override
 	public void run() {
 
-		lastTimeUpdate = System.currentTimeMillis();
+		running = true;		// This is what keeps the game loop running...
+		lastTimeUpdate = System.currentTimeMillis();	// Helper for fps counter
 
 		// The game loop...
 		while (running) {
@@ -88,6 +85,7 @@ public class Game extends JPanel implements Runnable {
 		}
 
 	}
+
 
 
 	// This is the method that draws everything to the screen
@@ -139,6 +137,7 @@ public class Game extends JPanel implements Runnable {
 		// Draw current fps
 		graphics2d.setColor(Color.WHITE);
 		graphics2d.drawString("" + fps, 7, 17);
+
 	}
 	// End paint()
 
