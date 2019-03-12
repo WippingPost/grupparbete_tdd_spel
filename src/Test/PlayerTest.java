@@ -10,7 +10,6 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
-import game.Collision;
 import game.Direction;
 import game.Player;
 import junitparams.JUnitParamsRunner;
@@ -21,14 +20,11 @@ import junitparams.Parameters;
 public class PlayerTest {
 
 	Player player;
-
-	Collision bang;
 	
 	// Skapar en ny Player vid koordinaterna x=500, y=500
 	@Before
 	public void setUp() throws Exception {
 		player = new Player(new Point(500, 500));
-		bang = new Collision();
 	}
 
 
@@ -70,17 +66,15 @@ public class PlayerTest {
 	}
 	
 	@Test
-	public void falseTest() {
-		Rectangle r1 = new Rectangle(20, 30, 10, 10);  //x, y, b, h
-		Rectangle r2 = new Rectangle(60, 60, 10, 10);
-		boolean actual = bang.between(r1, r2);
+	public void collisionFalseTest() {
+		Rectangle rectangle = new Rectangle(50, 30, 10, 10);  //x, y, b, h
+		boolean actual = player.collideWith(rectangle);
 		assertEquals(false, actual);
 	}
 	@Test
-	public void trueTest() {
-		Rectangle r1 = new Rectangle(20, 30, 10, 10); //x, y, b, h
-		Rectangle r2 = new Rectangle(20, 60, 10, 10);
-		boolean actual = bang.between(r1, r2);
-		assertEquals(false, actual);
+	public void collisionTrueTest() {
+		Rectangle rectangle = new Rectangle(500, 500, 10, 10);
+		boolean actual = player.collideWith(rectangle);
+		assertEquals(true, actual);
 	}
 }
