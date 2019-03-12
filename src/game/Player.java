@@ -9,20 +9,24 @@ import java.awt.geom.Line2D;
 public class Player {
 
 	private Rectangle hitBox;
-	private int speed, x, y;
+	private int speed, x, y, width, height;
 	private Direction playerDirection;
 	//Player color
 	private Color color = new Color(0,  0,  0);		// Black
 
 
 	// Creating player object at start position
-	public Player(Point point) {
+	public Player(Point point, int gridSize) {
 
-		x = point.x;
-		y = point.y;
-		speed = 120;  // pixels per second
+		height = (int)(gridSize * 0.8f);
+		width = height;
+		// Centering the Player in the grid
+		x = point.x + (gridSize - width) / 2;
+		y = point.y + (gridSize - height) / 2;
+
+		speed = gridSize * 5;  // pixels per second
 		playerDirection = Direction.IDLE;
-		hitBox = new Rectangle(x, y, 26, 26);
+		hitBox = new Rectangle(x, y, width, height);
 	}
 
 

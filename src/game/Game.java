@@ -2,10 +2,12 @@ package game;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
+import java.awt.Toolkit;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
@@ -15,6 +17,9 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class Game extends JPanel implements Runnable {
 
+	private Dimension screenSize;
+	private int screenWidth, screenHeight;
+	private final int gridSize;
 	private Thread gameThread = null;
     private boolean running, levelCleared, gameOver;
 	private int maxFps = 60;	// Target frame rate
@@ -38,7 +43,12 @@ public class Game extends JPanel implements Runnable {
 	// Constructor
 	public Game(InputManager inputManager) {
 
-		// TODO Create game objects and levels
+		// Getting the screen size
+		screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		screenWidth = (int)screenSize.getWidth();
+		screenHeight = (int)screenSize.getHeight();
+		// This sets the size (in pixels) of each grid on the game board
+		gridSize = screenHeight / 32;
 
 		levelManager = new LevelManager();
 		setBackground(Color.GRAY);
@@ -123,8 +133,11 @@ public class Game extends JPanel implements Runnable {
 			}
 			// Then draw the anchor points of the laser
 			graphics2d.setColor(Color.BLACK);
-			graphics2d.fillOval(laser.getPoint1().x - 5, laser.getPoint1().y - 5, 10, 10);
-			graphics2d.fillOval(laser.getPoint2().x - 5, laser.getPoint2().y - 5, 10, 10);
+			// Centering over the endpoints of the lasers
+			graphics2d.fillOval(laser.getPoint1().x - (gridSize / 6),
+					laser.getPoint1().y - (gridSize / 6), (gridSize / 3), (gridSize / 3));
+			graphics2d.fillOval(laser.getPoint2().x - (gridSize / 6),
+					laser.getPoint2().y - (gridSize / 6), (gridSize / 3), (gridSize / 3));
 		}
 
 		// TODO Draw Exit door if active
@@ -193,7 +206,6 @@ public class Game extends JPanel implements Runnable {
 	// Loading the level and its game objects
 	private void loadNextLevel(int level) {
 
-		int gridSize = 30;
 		int x = 0;
 		int y = 0;
 
@@ -210,13 +222,13 @@ public class Game extends JPanel implements Runnable {
 		for (Point point : levelManager.getWalls()) {
 			x = point.x * gridSize;
 			y = point.y * gridSize;
-			wallList.add(new Wall(new Point(x, y)));
+			wallList.add(new Wall(new Point(x, y), gridSize));
 		}
 		// The treasures
 		for (Point point : levelManager.getTreasures()) {
 			x = point.x * gridSize;
 			y = point.y * gridSize;
-			treasureList.add(new Treasure(new Point(x, y)));
+			treasureList.add(new Treasure(new Point(x, y), gridSize));
 		}
 		// TODO The lasers
 		Point point1;
@@ -228,18 +240,18 @@ public class Game extends JPanel implements Runnable {
 			point2 = levelManager.getLasers().get(i + 1);
 			point2.x = (point2.x * gridSize);
 			point2.y = (point2.y * gridSize);
-			laserList.add(new Laser(point1, point2));
+			laserList.add(new Laser(point1, point2, gridSize));
 		}
 
 		// Exit door
 		x = levelManager.getExitDoor().x * gridSize;
 		y = levelManager.getExitDoor().y * gridSize;
-		exitDoor = new ExitDoor(new Point(x, y));
+		exitDoor = new ExitDoor(new Point(x, y), gridSize);
 
 		// Player
 		x = levelManager.getPlayer().x * gridSize;
 		y = levelManager.getPlayer().y * gridSize;
-		player = new Player(new Point(x, y));
+		player = new Player(new Point(x, y), gridSize);
 
 	}
 

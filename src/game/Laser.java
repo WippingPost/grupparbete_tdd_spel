@@ -18,17 +18,17 @@ public class Laser {
 	private final int MAX_OFF_TIME = 2000;
 	private final int MIN_OFF_TIME = 1000;
 
-	public Laser(Point point1, Point point2) {
+	public Laser(Point point1, Point point2, int gridSize) {
 
 		// Sets the two points between which the Line is drawn
 		this.point1 = point1;
 		this.point2 = point2;
 		// point1, and point2 represents coordinates 0,0 in the 30x30 pixel size grid.
 		// Offset the point coordinates to be in the middle of grid.
-		point1.x += 15;
-		point1.y += 15;
-		point2.x += 15;
-		point2.y += 15;
+		point1.x += (gridSize / 2);
+		point1.y += (gridSize / 2);
+		point2.x += (gridSize / 2);
+		point2.y += (gridSize / 2);
 
 		// Sets onTime and offTime for the Laser
 		onTime = random.nextInt(MAX_ON_TIME - MIN_ON_TIME) + MIN_ON_TIME ;	// Randomize time between min and max

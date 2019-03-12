@@ -24,7 +24,7 @@ public class PlayerTest {
 	// Skapar en ny Player vid koordinaterna x=500, y=500
 	@Before
 	public void setUp() throws Exception {
-		player = new Player(new Point(500, 500));
+		player = new Player(new Point(500, 500), 30);
 	}
 
 

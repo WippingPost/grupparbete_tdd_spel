@@ -9,9 +9,9 @@ public class Main {
 		JFrame frame = new JFrame("Grupprojekt_Spel");
 		InputManager inputManager = new InputManager();
 		Game game = new Game(inputManager);
-		frame.setSize(905, 930);
+		frame.setExtendedState(6);
 		frame.add(game);
-		frame.setResizable(false);
+		frame.setResizable(true);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.addKeyListener(inputManager);
