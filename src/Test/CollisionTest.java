@@ -26,7 +26,7 @@ public class CollisionTest {
 	}
 	@Test
 	public void trueTest() {
-		Rectangle r1 = new Rectangle(20, 30, 10, 10);
+		Rectangle r1 = new Rectangle(20, 30, 10, 10); //x, y, b, h
 		Rectangle r2 = new Rectangle(20, 60, 10, 10);
 		boolean actual = bang.between(r1, r2);
 		assertEquals(false, actual);
