@@ -36,6 +36,11 @@ public class Treasure {
 	}
 
 
+	public boolean isActive() {
+		return visible;
+	}
+
+
 	public Rectangle getHitBox() {
 		return hitBox;
 	}

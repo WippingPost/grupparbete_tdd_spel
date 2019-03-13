@@ -11,6 +11,7 @@ public class Player {
 	private Rectangle hitBox;
 	private int speed, x, y, width, height;
 	private Direction playerDirection;
+	private boolean isActive;
 	//Player color
 	private Color color = new Color(0,  0,  0);		// Black
 
@@ -24,6 +25,7 @@ public class Player {
 		x = point.x + (gridSize - width) / 2;
 		y = point.y + (gridSize - height) / 2;
 
+		isActive = true;
 		speed = gridSize * 5;  // pixels per second
 		playerDirection = Direction.IDLE;
 		hitBox = new Rectangle(x, y, width, height);
@@ -76,6 +78,16 @@ public class Player {
 	// Sets player movement direction
 	public void setDirection(Direction direction) {
 		playerDirection = direction;
+	}
+
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+
+	public void inActivate() {
+		isActive = false;
 	}
 
 
