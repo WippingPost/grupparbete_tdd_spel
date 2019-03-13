@@ -29,7 +29,10 @@ public class PlayerTest {
 
 
 
-	// Testar så att Player verkligen initieras korrekt
+	/**
+	 *  Testar så att Player verkligen initieras korrekt
+	 *  Stämmer inte helt korrekt då player är 0.8 av rektangeln (se Player->player metod). 
+	 */
 	@Test
 	public void testPlayerInit() {
 
@@ -38,21 +41,25 @@ public class PlayerTest {
 		int actualCoordinateX = actual.x;
 		int actualCoordinateY = actual.y;
 		// Assert
-		assertEquals(500, actualCoordinateX);
-		assertEquals(500, actualCoordinateY);
+		assertEquals(503, actualCoordinateX);
+		assertEquals(503, actualCoordinateY);
 	}
 
 
 
-	// Testar så att Player flyttas åt rätt håll
-	// Vid olika direction inputs
+	/**
+	 *  Testar så att Player flyttas åt rätt håll
+	 *  Vid olika direction inputs
+	 *  Se testPlayerInit för att se varför x, y ej stämmer helt korrekt 
+	 */
+	// 
 	@Test
 	@Parameters({
-		"LEFT, 498, 500",
-		"RIGHT, 502, 500",
-		"UP, 500, 498",
-		"DOWN, 500, 502",
-		"IDLE, 500, 500"
+		"LEFT, 501, 503",
+		"RIGHT, 505, 503",
+		"UP, 503, 501",
+		"DOWN, 503, 505",
+		"IDLE, 503, 503"
 	})
 	public void testPlayerMoveLeft(Direction direction, int expectedX, int expectedY) {
 
