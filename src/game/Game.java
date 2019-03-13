@@ -31,9 +31,9 @@ public class Game extends JPanel implements Runnable {
 	private LevelManager levelManager;
 	private ExitDoor exitDoor;
 	private Line2D line;
+	private Collision col;
 	private final BasicStroke BRUSH_WIDTH = new BasicStroke(2f);	// The width of the laser line
-
-
+	
 	// ArrayLists of game objects
 	private ArrayList<Treasure> treasureList = new ArrayList<>();
 	private ArrayList<Wall> wallList= new ArrayList<>();
@@ -171,6 +171,14 @@ public class Game extends JPanel implements Runnable {
 		// Collision detection
 		// TODO Did player hit a laser?
 		// TODO Did player hit a wall?
+		
+		for(Wall wall : wallList) {
+			//Vi fångar om player collide med väggen
+			/*if(player.collideWith(wall.getHitBox())) {
+				System.out.println("Hit wall");
+			}*/
+		}
+		
 		// TODO Did player pick up the last treasure? If so, activate exit door!
 		// TODO Did player exit the game?
 		// ...

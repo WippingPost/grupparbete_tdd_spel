@@ -29,7 +29,7 @@ public class PlayerTest {
 
 
 
-	// Testar s� att Player verkligen initieras korrekt
+	// Testar så att Player verkligen initieras korrekt
 	@Test
 	public void testPlayerInit() {
 
@@ -44,7 +44,7 @@ public class PlayerTest {
 
 
 
-	// Testar s� att Player flyttas �t r�tt h�ll
+	// Testar så att Player flyttas åt rätt håll
 	// Vid olika direction inputs
 	@Test
 	@Parameters({
