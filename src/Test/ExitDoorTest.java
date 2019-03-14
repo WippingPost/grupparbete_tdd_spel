@@ -71,8 +71,8 @@ public class ExitDoorTest {
 	 */
 	@Test
 	public void containsTest() {
-		Rectangle contains = new Rectangle(50, 50, 30, 30);
-		Rectangle NOTcontains = new Rectangle(150, 150, 10, 10);
+		Rectangle contains = new Rectangle(50, 50, 30, 30); //rektangel innanför
+		Rectangle NOTcontains = new Rectangle(150, 150, 10, 10); //rektangel utanför 
 		assertTrue(Exit.contains(contains));
 		assertFalse(Exit.contains(NOTcontains));
 	}
