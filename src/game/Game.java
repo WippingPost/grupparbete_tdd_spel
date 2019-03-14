@@ -188,6 +188,16 @@ public class Game extends JPanel implements Runnable {
 
 		// Collision detection
 		// TODO Did player hit a laser?
+
+		for (Laser laser : laserList){
+			if (laser.isActive() && player.collideWith(line)){
+				System.out.println("Död som en sten!"); // TODO ska fortfarande ändras
+				gameOver = true; // TODO vad händer sen?
+			}
+
+			line = new Line2D.Float(laser.getPoint1(), laser.getPoint2());
+		}
+
 		// TODO Did player hit a wall?
 
 		for(Wall wall : wallList) {
