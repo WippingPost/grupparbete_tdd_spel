@@ -19,7 +19,7 @@ public class TreasureTest {
 	 */
 	
 	@Test
-	public void testWallInit() {
+	public void testTreasureInit() {
 		treasure = new Treasure(new Point(500, 500), 30);
 		Rectangle actual = treasure.getHitBox();
 		int actualCoordinateX = actual.x;
