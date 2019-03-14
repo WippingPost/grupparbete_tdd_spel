@@ -30,4 +30,19 @@ public class ExitDoorTest {
 			assertEquals(50, actualCoordinateY);
 	}
 
+	/**
+	 * Testar om både boolean ändras från false till active
+	 */
+	@Test
+	public void active() {
+		boolean falselIsActive = Exit.isActive();
+		boolean falselIsVisible = Exit.isVisible();	
+		assertEquals(true, falselIsActive);
+		assertEquals(false, falselIsVisible);
+		Exit.setActive();
+		boolean actualIsActive = Exit.isActive();
+		boolean actualIsVisible = Exit.isVisible();
+		assertEquals(true, actualIsActive);
+		assertEquals(true, actualIsVisible);
+	}
 }
