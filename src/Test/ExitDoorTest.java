@@ -1,6 +1,6 @@
 package Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -19,6 +19,26 @@ public class ExitDoorTest {
 	public void init() {
 	Exit = new ExitDoor(new Point(50, 50), 30);
 	}
+	@Test
+	public void updateFalselTest() {
+		Exit.update();
+		Boolean actual = Exit.isActive();
+		assertEquals(false, actual);
+	}
+	/**
+	 * Försökte göra ett test för att testa else if satsen i update. Tänkte fysiskt ändra
+	 * visible = false för att se om jag byggt upp det rätt, men funkar inte.
+	 */
+	@Test
+	public void updateTrueTest() {
+		//Exit.setActive();
+		Exit.update();
+		Boolean actualActive = Exit.isActive();
+		Boolean actualVisible = Exit.isVisible();
+		// assertEquals(true, actualActive);
+		assertEquals(true, actualVisible);
+	}
+	
 	
 	@Test
 	public void responsetest() {
@@ -46,11 +66,14 @@ public class ExitDoorTest {
 		assertEquals(true, actualIsVisible);
 	}
 	
+	/**
+	 * Kontrollerar contains vad den returnerar
+	 */
 	@Test
 	public void containsTest() {
-		Rectangle hitBox = new Rectangle(50, 50, 30, 30);
-		Rectangle actual = Exit.getHitBox();
-		Exit.contains(hitBox);
-		assertEquals(true, hitBox);
+		Rectangle contains = new Rectangle(50, 50, 30, 30);
+		Rectangle NOTcontains = new Rectangle(150, 150, 10, 10);
+		assertTrue(Exit.contains(contains));
+		assertFalse(Exit.contains(NOTcontains));
 	}
 }
