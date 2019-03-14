@@ -3,10 +3,10 @@ package game;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.geom.Line2D;
@@ -33,7 +33,11 @@ public class Game extends JPanel implements Runnable {
 	private ExitDoor exitDoor;
 	private Line2D line;
 	private final BasicStroke BRUSH_WIDTH = new BasicStroke(2f);	// The width of the laser line
-	
+
+	private int noOFTreasuresInLevel, treasuresCollected;
+	private Font font = new Font("Serif", Font.BOLD, 30);
+
+
 	// ArrayLists of game objects
 	private ArrayList<Treasure> treasureList = new ArrayList<>();
 	private ArrayList<Wall> wallList= new ArrayList<>();
@@ -58,6 +62,7 @@ public class Game extends JPanel implements Runnable {
 		frameCounter = 0;	// Counting frames per second
 		gameOver = false;
 		levelCleared = false;
+		fps = maxFps;	// Setting fps for the first second of the game
 
 		// Loading the level and it's game objects into memory
 		loadNextLevel(level);
@@ -84,7 +89,6 @@ public class Game extends JPanel implements Runnable {
 			// So it knows how long it takes to finish each frame
 			thisFrameTimeStart = System.currentTimeMillis();
 
-			
 			getPlayerInput();	// Did the player press any keys?
 
 			updateGame();		// Updating logics, positions etc...
@@ -119,13 +123,18 @@ public class Game extends JPanel implements Runnable {
 		// Draw treasures
 		for (Treasure treasure : treasureList) {
 			graphics2d.setColor(treasure.getColor());
-			graphics2d.fill(treasure.getHitBox());
+			// Only draw if still active (not picked up by player)
+			if (treasure.isActive()) {
+				graphics2d.fill(treasure.getHitBox());
+			}
 		}
 
 
 		// Draw Lasers
-		graphics2d.setStroke(BRUSH_WIDTH);	// The width of the laser line
 		for (Laser laser : laserList) {
+
+			// The width of the laser line
+			graphics2d.setStroke(BRUSH_WIDTH);
 			// Only draw the laser if it is active
 			if (laser.isActive()) {
 				graphics2d.setColor(laser.getColor());
@@ -141,16 +150,24 @@ public class Game extends JPanel implements Runnable {
 					laser.getPoint2().y - (gridSize / 6), (gridSize / 3), (gridSize / 3));
 		}
 
-		// TODO Draw Exit door if active
-		graphics2d.setColor(exitDoor.getColor());
+		// Draw Exit door if active and visible
+		if (exitDoor.isVisible()) {
+			graphics2d.setColor(exitDoor.getColor());
+			graphics2d.fill(exitDoor.getHitBox());
+		}
 
 		// Draw player
 		graphics2d.setColor(player.getColor());
 		graphics2d.fill(player.getHitBox());
 
 		// Draw current fps
-		graphics2d.setColor(Color.WHITE);
-		graphics2d.drawString("" + fps, 7, 17);
+		graphics2d.setColor(Color.BLACK);
+		graphics2d.setFont(font);
+		graphics2d.drawString("FPS = " + fps, gridSize * 31, gridSize);
+		graphics2d.drawString("LEVEL " + level, gridSize * 31, gridSize * 12);
+		graphics2d.drawString("Treasures Collected = " + treasuresCollected
+				+ " / " + noOFTreasuresInLevel, gridSize * 31, gridSize * 14);
+
 
 	}
 	// End paint()
@@ -171,28 +188,65 @@ public class Game extends JPanel implements Runnable {
 
 		// Collision detection
 		// TODO Did player hit a laser?
+
+		for (Laser laser : laserList){
+
+            line = new Line2D.Float(laser.getPoint1(), laser.getPoint2());
+
+			if (laser.isActive() && player.collideWith(line)){
+				System.out.println("Död som en sten!"); // TODO ska fortfarande ändras
+				gameOver = true; // TODO vad händer sen?
+			}
+
+
+		}
+
 		// TODO Did player hit a wall?
+
 		for(Wall wall : wallList) {
 			//Vi fångar om player collide med väggen
 			if(player.collideWith(wall.getHitBox())) {
 				player.resetPosition();
-				System.out.println("OLD POS " + player.getOldHitBox());
+				System.out.println("OLD POS " + player.getOldHitBox()); //TODO, Denna kommer hålla samma position som den nya hitboxen
 				System.out.println("NEW POSITION" + player.getHitBox().toString());
 				
 				
 			}
 		}
-		
+
 		// TODO Did player pick up the last treasure? If so, activate exit door!
-		// TODO Did player exit the game?
+		for (Treasure other : treasureList) {
+			if (other.isActive() && player.collideWith(other.getHitBox())) {
+				other.setPickedUp();
+				treasuresCollected ++;
+				// Did player pick up all treasures?
+				if (treasuresCollected == noOFTreasuresInLevel) {
+					exitDoor.setActive();
+				}
+			}
+		}
+
+		// Did player exit the game?
+		if (exitDoor.isActive()) {
+			if (exitDoor.contains(player.getHitBox())) {
+
+				player.inActivate();	// Inactivates the player while loading new level
+				levelCleared = true;
+				// TODO Load new level
+			}
+			exitDoor.update();
+		}
+
 		// ...
 
 		// TODO Update laser
 		for (Laser laser : laserList) {
 			laser.update();
 		}
-		// Update player
-		player.update(fps);
+		// Update player if active
+		if (player.isActive()) {
+			player.update(fps);
+		}
 	}
 
 
@@ -210,13 +264,14 @@ public class Game extends JPanel implements Runnable {
 
 		// Draw the scene
 		repaint();
-
 	}
 
 
 
 	// Loading the level and its game objects
 	private void loadNextLevel(int level) {
+
+		levelCleared = false;
 
 		int x = 0;
 		int y = 0;
@@ -237,10 +292,14 @@ public class Game extends JPanel implements Runnable {
 			wallList.add(new Wall(new Point(x, y), gridSize));
 		}
 		// The treasures
+		// Reset counters for each level.
+		noOFTreasuresInLevel = 0;
+		treasuresCollected = 0;
 		for (Point point : levelManager.getTreasures()) {
 			x = point.x * gridSize;
 			y = point.y * gridSize;
 			treasureList.add(new Treasure(new Point(x, y), gridSize));
+			noOFTreasuresInLevel ++;
 		}
 		// TODO The lasers
 		Point point1;
@@ -284,5 +343,5 @@ public class Game extends JPanel implements Runnable {
         }
 	}
 
-
 }
+
