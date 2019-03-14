@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.geom.Line2D;
@@ -31,7 +32,6 @@ public class Game extends JPanel implements Runnable {
 	private LevelManager levelManager;
 	private ExitDoor exitDoor;
 	private Line2D line;
-	private Collision col;
 	private final BasicStroke BRUSH_WIDTH = new BasicStroke(2f);	// The width of the laser line
 	
 	// ArrayLists of game objects
@@ -84,6 +84,7 @@ public class Game extends JPanel implements Runnable {
 			// So it knows how long it takes to finish each frame
 			thisFrameTimeStart = System.currentTimeMillis();
 
+			
 			getPlayerInput();	// Did the player press any keys?
 
 			updateGame();		// Updating logics, positions etc...
@@ -171,12 +172,15 @@ public class Game extends JPanel implements Runnable {
 		// Collision detection
 		// TODO Did player hit a laser?
 		// TODO Did player hit a wall?
-		
 		for(Wall wall : wallList) {
 			//Vi fångar om player collide med väggen
-			/*if(player.collideWith(wall.getHitBox())) {
-				System.out.println("Hit wall");
-			}*/
+			if(player.collideWith(wall.getHitBox())) {
+				player.resetPosition();
+				System.out.println("OLD POS " + player.getOldHitBox());
+				System.out.println("NEW POSITION" + player.getHitBox().toString());
+				
+				
+			}
 		}
 		
 		// TODO Did player pick up the last treasure? If so, activate exit door!

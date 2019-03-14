@@ -9,6 +9,7 @@ import java.awt.geom.Line2D;
 public class Player {
 
 	private Rectangle hitBox;
+	private Rectangle oldHitBox;
 	private int speed, x, y, width, height;
 	private Direction playerDirection;
 	//Player color
@@ -27,6 +28,7 @@ public class Player {
 		speed = gridSize * 5;  // pixels per second
 		playerDirection = Direction.IDLE;
 		hitBox = new Rectangle(x, y, width, height);
+		oldHitBox = new Rectangle(x, y, width, height);
 	}
 
 
@@ -57,6 +59,7 @@ public class Player {
 		}
 
 
+		
 		// Update player position
 		hitBox.setLocation(x, y);
 	}
@@ -83,11 +86,23 @@ public class Player {
 	public Rectangle getHitBox() {
 		return hitBox;
 	}
-
+	
+	// Returns player hitbox
+	public Rectangle getOldHitBox() {
+		return oldHitBox;
+	}
 
 	// Returns players color
 	public Color getColor() {
 		return color;
+	}
+	// Reset the player position
+	public void resetPosition() {
+		hitBox.setLocation(oldHitBox.x, oldHitBox.y);
+	}
+	// hold the player position
+	public void saveOldPosition(int x, int y) {
+		oldHitBox.setLocation(x, y);
 	}
 
 }

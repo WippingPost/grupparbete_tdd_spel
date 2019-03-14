@@ -17,6 +17,8 @@ public class CollisionTest {
 	bang = new Collision();
 	}
 
+
+	
 	//Basic test ingen collision
 	@Test
 	public void falseTest() {
