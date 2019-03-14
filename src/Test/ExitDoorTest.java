@@ -31,12 +31,15 @@ public class ExitDoorTest {
 	 */
 	@Test
 	public void updateTrueTest() {
-		//Exit.setActive();
+	/*	Exit.setActive();
 		Exit.update();
 		Boolean actualActive = Exit.isActive();
 		Boolean actualVisible = Exit.isVisible();
-		// assertEquals(true, actualActive);
+		assertEquals(true, actualActive);
 		assertEquals(true, actualVisible);
+		*/
+		Exit.update();
+		assertTrue(Exit.isVisible());
 	}
 	
 	
@@ -55,15 +58,11 @@ public class ExitDoorTest {
 	 */
 	@Test
 	public void setActiveBooleanTest() {
-		boolean falselIsActive = Exit.isActive();
-		boolean falselIsVisible = Exit.isVisible();	
-		assertEquals(false, falselIsActive);
-		assertEquals(false, falselIsVisible);
+		assertFalse(Exit.isActive());
+		assertFalse(Exit.isVisible());
 		Exit.setActive();
-		boolean actualIsActive = Exit.isActive();
-		boolean actualIsVisible = Exit.isVisible();
-		assertEquals(true, actualIsActive);
-		assertEquals(true, actualIsVisible);
+		assertTrue(Exit.isActive());
+		assertTrue(Exit.isVisible());
 	}
 	
 	/**

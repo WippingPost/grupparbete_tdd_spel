@@ -1,6 +1,8 @@
 package Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -75,25 +77,21 @@ public class PlayerTest {
 	@Test
 	public void collisionWithBoxFalseTest() {
 		Rectangle rectangle = new Rectangle(50, 30, 10, 10);  //x, y, b, h
-		boolean actual = player.collideWith(rectangle);
-		assertEquals(false, actual);
+		assertFalse(player.collideWith(rectangle));
 	}
 	@Test
 	public void collisionWithBoxTrueTest() {
 		Rectangle rectangle = new Rectangle(500, 500, 10, 10);
-		boolean actual = player.collideWith(rectangle);
-		assertEquals(true, actual);
+		assertTrue(player.collideWith(rectangle));
 	}
 	@Test
 	public void collisionWithLaserFalseTest() {
 		Rectangle rectangle = new Rectangle(50, 30, 10, 10);  //x, y, b, h
-		boolean actual = player.collideWith(rectangle);
-		assertEquals(false, actual);
+		assertFalse(player.collideWith(rectangle));
 	}
 	@Test
 	public void collisionWithLaserTrueTest() {
 		Rectangle rectangle = new Rectangle(500, 500, 10, 10);
-		boolean actual = player.collideWith(rectangle);
-		assertEquals(true, actual);
+		assertTrue(player.collideWith(rectangle));
 	}
 }
