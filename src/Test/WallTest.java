@@ -18,6 +18,7 @@ public class WallTest {
 	 * även här stämmer inte kordinaterna tillbaka pga att den är 0.9 av rutan
 	 * Se playerTest -> testPlayerInit
 	 */
+	
 	@Test
 	public void testWallInit() {
 		wall = new Wall(new Point(500, 500), 30);
