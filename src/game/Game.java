@@ -11,8 +11,7 @@ import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+
 
 import javax.swing.JPanel;
 
@@ -44,7 +43,7 @@ public class Game extends JPanel implements Runnable {
 	private ArrayList<Treasure> treasureList = new ArrayList<>();
 	private ArrayList<Wall> wallList= new ArrayList<>();
 	private ArrayList<Laser> laserList= new ArrayList<>();
-	ScheduledThreadPoolExecutor exec = new ScheduledThreadPoolExecutor(1);
+
 
 
 	// Constructor
