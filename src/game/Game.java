@@ -223,8 +223,6 @@ public class Game extends JPanel implements Runnable {
 
 		}
 
-		// TODO Did player hit a wall?
-
 		for(Wall wall : wallList) {
 			//Vi fångar om player collide med väggen
 			if(player.collideWith(wall.getHitBox())) {
