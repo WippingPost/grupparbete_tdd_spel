@@ -111,6 +111,13 @@ public class Game extends JPanel implements Runnable {
 			fpsControl(thisFrameTimeStart);		// Handler for frames per second
 
 		}
+
+		// Exiting...
+		System.exit(0);
+	}
+
+	public boolean getRunning() {
+		return running;
 	}
 
 
@@ -238,7 +245,7 @@ public class Game extends JPanel implements Runnable {
 				other.setPickedUp();
 				treasuresCollected ++;
 				// Did player pick up all treasures?
-				if (treasuresCollected == noOFTreasuresInLevel) {
+				if (treasuresCollected == 1) {
 					exitDoor.setActive();
 				}
 			}
@@ -247,7 +254,6 @@ public class Game extends JPanel implements Runnable {
 		// Did player exit the game?
 		if (exitDoor.isActive() && !pausedState) {
 			if (exitDoor.contains(player.getHitBox())) {
-
 				player.inActivate();	// Inactivates the player while loading new level
 				levelCleared = true;
 				level++;
@@ -307,12 +313,17 @@ public class Game extends JPanel implements Runnable {
 			loadingScreen = false;
 			loadLevel(level);
 
-		} else if (levelCleared && (nowTime - deltaTime) > 4000) {		// 4 second wait
+		}
+
+		if (levelCleared && (nowTime - deltaTime) > 4000) {		// 4 second wait
+
+			// Did we reach the last level? If so, quit the game
 			if (levelManager.getNumberOfLevels() < level) {
-				level = 1;
+				running = false;
+			} else {
+				loadLevel(level);
 			}
 			loadingScreen = false;
-			loadLevel(level);
 		}
 	}
 
@@ -360,7 +371,8 @@ public class Game extends JPanel implements Runnable {
 
 		if (levelCleared && (levelManager.getNumberOfLevels() < level)) {
 			graphics2d.drawString("ALL LEVELS CLEARED!", screenWidth / 3, screenHeight / 4);
-			graphics2d.drawString("LOADING FIRST LEVEL!", screenWidth / 3, screenHeight / 3);
+			graphics2d.drawString("GAME OVER!", screenWidth / 3, screenHeight / 3);
+			graphics2d.drawString("QUITING GAME!", screenWidth / 3, screenHeight / 2);
 		}
 	}
 
