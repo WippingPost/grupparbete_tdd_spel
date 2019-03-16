@@ -32,7 +32,7 @@ public class PlayerTest {
 
 	/**
 	 *  Testar metoden resetPositon så att spelaren får en reset till tidigare X och Y position
-	 *  
+	 * 
 	 */
 
 	@Test
