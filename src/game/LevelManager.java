@@ -327,7 +327,6 @@ public class LevelManager {
 		levels.add(level3);
 
 
-
 		String[] level4 = {"0..........................1",
 				           "X.W..W.WWWW.W....W....WWWW..",
 						   "P.W..W.W.T..W....W....W..W..",
@@ -358,6 +357,38 @@ public class LevelManager {
 						   "...........................T"};
 
 		levels.add(level4);
+
+
+		String[] level5 = {"9..........................6",
+					  	   "PWWWWWWWWWWWWWWWWWWWWWWWWWW.",
+						   "XW......................WT..",
+				           ".W.W.WWWWWWWWWWWWWWWWWW.W.W.",
+				           ".W.W..................W.W.W.",
+						   ".W.W.WWWWWWWWWWWWWWWW.W.W.W.",
+						   ".W.W.W..............W.W.W.W.",
+						   ".W.W.W.W.WWWWWWWWWW.W.W.W.W.",
+						   ".W.W.W.WT.........W.W.W.W.W.",
+						   ".W.W.W.W.WWWWWWWW.W.W.W.W.W.",
+						   ".W.W.W.W.W......W.W.W.W.W.W.",
+						   ".W.W.W.W.W.WWWW.W.W.W.W.W.W.",
+						   ".W.W.W.W.W.W....W.W.W.W.W.W.",
+						   ".W.W.W.W.W.W.TT.W.W.W.W.W.W.",
+						   ".W.W.W.W.W.W.TT.WWW.W.W.W.W.",
+						   ".W.W.W.W.W.W....W.W.W.W.W.W.",
+						   ".W.W.W.W.W.WWWWWW.W.W.W.W.W.",
+						   ".W.W.W.W.W........W.W.W.W.W.",
+						   ".W.W.W.W.WWWWWWWW.W.W.W.W.W.",
+						   ".W.W.W.W...........TW.W.W.W.",
+						   ".W.W.W.WWWWWWWWWWWWWW.W.W.W.",
+						   ".W.W.W................W.W.W.",
+						   ".W.W.W.WWWWWWWWWWWWWWWW.W.W.",
+						   ".W.WT...................W.W.",
+						   ".W.WWWWWWWWWWWWWWWWWWWW.W.W.",
+						   ".W.W.....................TW.",
+						   ".WTWWWWWWWWWWWWWWWWWWWWWWWW.",
+						   "7..........................8"};
+
+		levels.add(level5);
 
 	}
 
