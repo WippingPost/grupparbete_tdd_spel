@@ -243,6 +243,11 @@ public class Game extends JPanel implements Runnable {
 					exitDoor.setActive();
 				}
 			}
+
+			// Updating treasure (flashing)
+			if (other.isActive()) {
+				other.update();
+			}
 		}
 
 		// Did player exit the game?
