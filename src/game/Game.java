@@ -245,7 +245,7 @@ public class Game extends JPanel implements Runnable {
 				other.setPickedUp();
 				treasuresCollected ++;
 				// Did player pick up all treasures?
-				if (treasuresCollected == 1) {
+				if (treasuresCollected == noOFTreasuresInLevel) {
 					exitDoor.setActive();
 				}
 			}
