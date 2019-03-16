@@ -30,7 +30,32 @@ public class PlayerTest {
 	}
 
 
+	/**
+	 *  Testar metoden resetPositon så att spelaren får en reset till tidigare X och Y position
+	 *  
+	 */
 
+	@Test
+	public void testResetPosition() {
+
+		// Act
+		Player p = new Player(new Point(500, 500), 30);
+		Direction directionRIGHT = Direction.RIGHT;
+		p.setDirection(directionRIGHT);
+		p.update(60);
+		Rectangle firstActual = p.getHitBox();
+		int FirstmoveX = firstActual.x;
+		int FirstMoveY = firstActual.y;
+		p.setDirection(directionRIGHT);
+		p.update(60);
+		p.resetPosition();
+		Rectangle actual = p.getHitBox();
+		int actualCoordinateX = actual.x;
+		int actualCoordinateY = actual.y;
+		// Assert
+		assertEquals(FirstmoveX, actualCoordinateX);
+		assertEquals(FirstMoveY, actualCoordinateY);
+	}
 	/**
 	 *  Testar så att Player verkligen initieras korrekt
 	 *  Stämmer inte helt korrekt då player är 0.8 av rektangeln (se Player->player metod). 
