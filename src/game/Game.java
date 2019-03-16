@@ -116,12 +116,6 @@ public class Game extends JPanel implements Runnable {
 		System.exit(0);
 	}
 
-	public boolean getRunning() {
-		return running;
-	}
-
-
-
 	// This is the method that draws everything to the screen
 	@Override
 	public void paint(Graphics graphics) {
