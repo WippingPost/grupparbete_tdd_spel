@@ -25,10 +25,7 @@ public class LaserTest {
 		int gridsize = 1;
 		point1.x = 1;
 		point2.y = 1;
-
-		
 		Laser laser = new Laser(point1, point2, gridsize);
-		
 		// Assert
 		assertEquals(1, laser.getPoint1().x);
 		assertEquals(1, laser.getPoint2().y);
