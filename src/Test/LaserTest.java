@@ -11,8 +11,6 @@ import game.InputManager;
 import game.Laser;
 
 public class LaserTest {
-
-	
 	/*
 	 * 
 	 * Testar så att vi kan initera en ny laser
