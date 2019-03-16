@@ -12,7 +12,6 @@ import java.awt.Toolkit;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
-
 import javax.swing.JPanel;
 
 
@@ -23,11 +22,12 @@ public class Game extends JPanel implements Runnable {
 	private int screenWidth, screenHeight;
 	private final int gridSize;
 	private Thread gameThread = null;
-    private boolean running, levelCleared, gameOver;
+    private boolean pausedState, running, levelCleared, gameOver, loadingScreen;
 	private int maxFps = 60;	// Target frame rate
 	private long maxFrameTime = 1000 / maxFps;	 // Frame time at maxFps
 	private int fps, frameCounter, level;
 	private long thisFrameTimeStart, lastTimeUpdate;
+	private long nowTime, deltaTime;
 	private Player player;
 	private InputManager inputManager;
 	private LevelManager levelManager;
@@ -36,8 +36,8 @@ public class Game extends JPanel implements Runnable {
 	private final BasicStroke BRUSH_WIDTH = new BasicStroke(2f);	// The width of the laser line
 
 	private int noOFTreasuresInLevel, treasuresCollected;
-	private Font font = new Font("Serif", Font.BOLD, 30);
-
+	private Font font;
+	private Font font2;
 
 	// ArrayLists of game objects
 	private ArrayList<Treasure> treasureList = new ArrayList<>();
@@ -56,6 +56,10 @@ public class Game extends JPanel implements Runnable {
 		// This sets the size (in pixels) of each grid on the game board
 		gridSize = screenHeight / 32;
 
+		// Text font and size
+		font = new Font("Serif", Font.BOLD, screenHeight / 30);
+		font2 = new Font("Serif", Font.PLAIN, screenHeight / 50);
+
 		levelManager = new LevelManager();
 		setBackground(Color.GRAY);
 		this.inputManager = inputManager;	// Used to handle player input
@@ -67,9 +71,10 @@ public class Game extends JPanel implements Runnable {
 		fps = maxFps;	// Setting fps for the first second of the game
 
 		// Loading the level and it's game objects into memory
-		loadNextLevel(level);
+		loadLevel(level);
 
 		// Creating new thread and starting it
+		running = true;		// This is what keeps the game loop running...
 		gameThread = new Thread(this);
 		gameThread.start();
 	}
@@ -81,7 +86,6 @@ public class Game extends JPanel implements Runnable {
 	@Override
 	public void run() {
 
-		running = true;		// This is what keeps the game loop running...
 		lastTimeUpdate = System.currentTimeMillis();	// Helper for fps counter
 
 		// The game loop...
@@ -93,14 +97,20 @@ public class Game extends JPanel implements Runnable {
 
 			getPlayerInput();	// Did the player press any keys?
 
-			updateGame();		// Updating logics, positions etc...
+			// Updating logics, positions etc...
+			if (!loadingScreen) {
+				updateGame();
+
+			// ...unless the Loading Screen is active
+			} else {
+				updateLoadingScreen();
+			}
 
 			drawGame();			// Drawing the game objects
 
 			fpsControl(thisFrameTimeStart);		// Handler for frames per second
 
 		}
-
 	}
 
 
@@ -115,60 +125,67 @@ public class Game extends JPanel implements Runnable {
 		graphics2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
-		// Draw the game board
-		// Draw walls
-		for (Wall wall : wallList) {
-			graphics2d.setColor(wall.getColor());
-			graphics2d.fill(wall.getHitBox());
-		}
+		// TODO Draw Loading Screen if active
+		if (!loadingScreen) {
 
-		// Draw treasures
-		for (Treasure treasure : treasureList) {
-			graphics2d.setColor(treasure.getColor());
-			// Only draw if still active (not picked up by player)
-			if (treasure.isActive()) {
-				graphics2d.fill(treasure.getHitBox());
+			// Draw the game board
+			// Draw walls
+			for (Wall wall : wallList) {
+				graphics2d.setColor(wall.getColor());
+				graphics2d.fill(wall.getHitBox());
 			}
-		}
 
-
-		// Draw Lasers
-		for (Laser laser : laserList) {
-
-			// The width of the laser line
-			graphics2d.setStroke(BRUSH_WIDTH);
-			// Only draw the laser if it is active
-			if (laser.isActive()) {
-				graphics2d.setColor(laser.getColor());
-				line = new Line2D.Float(laser.getPoint1(), laser.getPoint2());
-				graphics2d.draw(line);
+			// Draw treasures
+			for (Treasure treasure : treasureList) {
+				graphics2d.setColor(treasure.getColor());
+				// Only draw if still active (not picked up by player)
+				if (treasure.isActive()) {
+					graphics2d.fillRoundRect(treasure.getHitBox().x, treasure.getHitBox().y,
+							treasure.getHitBox().width, treasure.getHitBox().height, 6 , 6);
+				}
 			}
-			// Then draw the anchor points of the laser
-			graphics2d.setColor(Color.BLACK);
-			// Centering over the endpoints of the lasers
-			graphics2d.fillOval(laser.getPoint1().x - (gridSize / 6),
-					laser.getPoint1().y - (gridSize / 6), (gridSize / 3), (gridSize / 3));
-			graphics2d.fillOval(laser.getPoint2().x - (gridSize / 6),
-					laser.getPoint2().y - (gridSize / 6), (gridSize / 3), (gridSize / 3));
+
+
+			// Draw Lasers
+			for (Laser laser : laserList) {
+
+				// The width of the laser line
+				graphics2d.setStroke(BRUSH_WIDTH);
+				// Only draw the laser if it is active
+				if (laser.isActive()) {
+					graphics2d.setColor(laser.getColor());
+					line = new Line2D.Float(laser.getPoint1(), laser.getPoint2());
+					graphics2d.draw(line);
+				}
+				// Then draw the anchor points of the laser
+				graphics2d.setColor(Color.BLACK);
+				// Centering over the endpoints of the lasers
+				graphics2d.fillOval(laser.getPoint1().x - (gridSize / 6),
+						laser.getPoint1().y - (gridSize / 6), (gridSize / 3), (gridSize / 3));
+				graphics2d.fillOval(laser.getPoint2().x - (gridSize / 6),
+						laser.getPoint2().y - (gridSize / 6), (gridSize / 3), (gridSize / 3));
+			}
+
+			// Draw Exit door if active and visible
+			if (exitDoor.isVisible()) {
+				graphics2d.setColor(exitDoor.getColor());
+				graphics2d.fill(exitDoor.getHitBox());
+			}
+
+			// Draw player
+			graphics2d.setColor(player.getColor());
+			graphics2d.fillRoundRect(player.getHitBox().x, player.getHitBox().y,
+					player.getHitBox().width, player.getHitBox().height, 5, 5);
+
+			// Drawing score etc...
+			drawInformation(graphics2d);
+
+		// Drawing Loading Screen if active
+		} else {
+			drawLoadingScreen(graphics2d);
 		}
 
-		// Draw Exit door if active and visible
-		if (exitDoor.isVisible()) {
-			graphics2d.setColor(exitDoor.getColor());
-			graphics2d.fill(exitDoor.getHitBox());
-		}
 
-		// Draw player
-		graphics2d.setColor(player.getColor());
-		graphics2d.fill(player.getHitBox());
-
-		// Draw current fps
-		graphics2d.setColor(Color.BLACK);
-		graphics2d.setFont(font);
-		graphics2d.drawString("FPS = " + fps, gridSize * 31, gridSize);
-		graphics2d.drawString("LEVEL " + level, gridSize * 31, gridSize * 12);
-		graphics2d.drawString("Treasures Collected = " + treasuresCollected
-				+ " / " + noOFTreasuresInLevel, gridSize * 31, gridSize * 14);
 
 
 	}
@@ -195,9 +212,11 @@ public class Game extends JPanel implements Runnable {
 
             line = new Line2D.Float(laser.getPoint1(), laser.getPoint2());
 
-			if (laser.isActive() && player.collideWith(line)){
-				System.out.println("Död som en sten!"); // TODO ska fortfarande ändras
-				gameOver = true; // TODO vad händer sen?
+			if (laser.isActive() && player.collideWith(line) && !pausedState){
+				player.inActivate();
+				pausedState = true;
+				gameOver = true;
+				deltaTime = System.currentTimeMillis();
 			}
 
 
@@ -209,7 +228,7 @@ public class Game extends JPanel implements Runnable {
 			//Vi fångar om player collide med väggen
 			if(player.collideWith(wall.getHitBox())) {
 				player.resetPosition();
-					
+
 			}
 		}
 
@@ -226,12 +245,14 @@ public class Game extends JPanel implements Runnable {
 		}
 
 		// Did player exit the game?
-		if (exitDoor.isActive()) {
+		if (exitDoor.isActive() && !pausedState) {
 			if (exitDoor.contains(player.getHitBox())) {
 
 				player.inActivate();	// Inactivates the player while loading new level
 				levelCleared = true;
-				// TODO Load new level
+				level++;
+				deltaTime = System.currentTimeMillis();
+				pausedState = true;
 			}
 			exitDoor.update();
 		}
@@ -245,6 +266,16 @@ public class Game extends JPanel implements Runnable {
 		// Update player if active
 		if (player.isActive()) {
 			player.update(fps);
+		}
+
+
+		// Short pause before Loading Screen if player died or cleared level
+		if (pausedState) {
+			if (System.currentTimeMillis() - deltaTime > 700) {
+				loadingScreen = true;
+				pausedState = false;
+				deltaTime = System.currentTimeMillis();
+			}
 		}
 	}
 
@@ -267,10 +298,79 @@ public class Game extends JPanel implements Runnable {
 
 
 
+	// Update loading Screen
+	private void updateLoadingScreen() {
+
+		nowTime = System.currentTimeMillis();
+
+		if (gameOver && (nowTime - deltaTime) > 4000) {		// 4 second wait
+			loadingScreen = false;
+			loadLevel(level);
+
+		} else if (levelCleared && (nowTime - deltaTime) > 4000) {		// 4 second wait
+			if (levelManager.getNumberOfLevels() < level) {
+				level = 1;
+			}
+			loadingScreen = false;
+			loadLevel(level);
+		}
+	}
+
+	private void drawInformation(Graphics2D graphics2d) {
+
+		// Draw current fps
+		graphics2d.setColor(Color.BLACK);
+		graphics2d.setFont(font2);
+		graphics2d.drawString("FPS = " + fps, gridSize * 31, gridSize);
+		graphics2d.setFont(font);
+		if (!pausedState) {
+			graphics2d.drawString("LEVEL " + level, gridSize * 31, screenHeight / 4);
+		} else {
+			graphics2d.drawString("LEVEL " + (level - 1), gridSize * 31, screenHeight / 4);
+		}
+		graphics2d.drawString("Treasures Collected = " + treasuresCollected
+				+ " / " + noOFTreasuresInLevel, gridSize * 31, screenHeight / 3);
+		graphics2d.setFont(font2);
+		graphics2d.drawString("Control the burglar (black rectangle) with the arrow keys!", gridSize * 31, (int)(screenHeight / 1.3f));
+		graphics2d.drawString("Steal all the treasures (yellow) to advance to the next level."
+				, gridSize * 31, (int)(screenHeight / 1.25f));
+		graphics2d.drawString("Avoid burglar alarm lasers (red) or you will be caught!"
+				, gridSize * 31, (int)(screenHeight / 1.2f));
+		graphics2d.drawString("When all treasures are stolen a green exit door will appear."
+				, gridSize * 31, (int)(screenHeight / 1.15f));
+	}
+
+
+
+	// Draw Loading Screen
+	private void drawLoadingScreen(Graphics2D graphics2d) {
+
+		graphics2d.setColor(Color.BLACK);
+		graphics2d.setFont(font);
+
+		if (gameOver) {
+			graphics2d.drawString("YOU WERE CAUGHT STEALING!", screenWidth / 3, screenHeight / 4);
+			graphics2d.drawString("TRY AGAIN!", screenWidth / 3, screenHeight / 3);
+		}
+
+		if (levelCleared && levelManager.getNumberOfLevels() >= level) {
+			graphics2d.drawString("LEVEL CLEARED!", screenWidth / 3, screenHeight / 4);
+			graphics2d.drawString("LOADING LEVEL " + level, screenWidth / 3, screenHeight / 3);
+		}
+
+		if (levelCleared && (levelManager.getNumberOfLevels() < level)) {
+			graphics2d.drawString("ALL LEVELS CLEARED!", screenWidth / 3, screenHeight / 4);
+			graphics2d.drawString("LOADING FIRST LEVEL!", screenWidth / 3, screenHeight / 3);
+		}
+	}
+
+
+
 	// Loading the level and its game objects
-	private void loadNextLevel(int level) {
+	private void loadLevel(int level) {
 
 		levelCleared = false;
+		gameOver = false;
 
 		int x = 0;
 		int y = 0;

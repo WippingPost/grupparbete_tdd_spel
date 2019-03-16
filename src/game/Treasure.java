@@ -17,7 +17,7 @@ public class Treasure {
 
 		// Size of game object
 		height = (int)(gridSize * 0.5f);
-		width = (int)(gridSize * 0.4f);
+		width = (int)(gridSize * 0.3f);
 
 		// Centering the Object in the grid
 		x = point.x + (gridSize - width) / 2;

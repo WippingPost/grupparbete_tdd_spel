@@ -19,14 +19,14 @@ public class Player {
 
 	// Creating player object at start position
 	public Player(Point point, int gridSize) {
-		
-		height = (int)(gridSize * 0.8f);
+
+		height = (int)(gridSize * 0.65f);
 		width = height;
 		// Centering the Player in the grid
 		x = point.x + (gridSize - width) / 2;
 		y = point.y + (gridSize - height) / 2;
 		isActive = true;
-		speed = gridSize * 5;  // pixels per second
+		speed = gridSize * 6;  // pixels per second
 		playerDirection = Direction.IDLE;
 		hitBox = new Rectangle(x, y, width, height);
 
@@ -37,7 +37,7 @@ public class Player {
 	public void update(int fps) {
 		oldX = x;
 		oldY = y;
-		
+
 		switch (playerDirection) {
 
 		case LEFT:
@@ -62,7 +62,7 @@ public class Player {
 		}
 
 
-		
+
 		// Update player position
 		hitBox.setLocation(x, y);
 	}
@@ -98,13 +98,15 @@ public class Player {
 	public Rectangle getHitBox() {
 		return hitBox;
 	}
-	
+
 
 
 	// Returns players color
 	public Color getColor() {
 		return color;
 	}
+
+
 	// Reset the player position
 	public void resetPosition() {
 		x = oldX;

@@ -22,8 +22,8 @@ public class ExitDoor {
 		// Size of game object
 		//height = (int)(gridSize * 0.9f);
 		//width = (int)(gridSize * 0.9f);
-		height = gridSize;
-		width = gridSize;
+		height = (int)(gridSize * 1.2f);
+		width = (int)(gridSize * 1.2f);;
 		// Centering the Object in the grid
 		x = point.x + (gridSize - width) / 2;
 		y = point.y + (gridSize - height) / 2;
