@@ -64,7 +64,7 @@ public class Game extends JPanel implements Runnable {
 		setBackground(Color.GRAY);
 		this.inputManager = inputManager;	// Used to handle player input
 
-		level = 1;	// Setting first level number
+		level = 9;	// Setting first level number
 		frameCounter = 0;	// Counting frames per second
 		gameOver = false;
 		levelCleared = false;

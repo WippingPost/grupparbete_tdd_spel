@@ -114,7 +114,7 @@ public class LevelManager {
 					// Player start point
 					case 'P':
 						player.setLocation(currentPoint);
-
+						break;
 					// where is the exit door
 					case 'X':
 						exitDoor.setLocation(currentPoint);
@@ -231,7 +231,7 @@ public class LevelManager {
 
 
 		// The levels
-		
+
 		String[] level1 = {"X.............0.............",
 						   "P.......................T...",
 						   "............................",
@@ -260,9 +260,9 @@ public class LevelManager {
 						   "...T.....................T..",
 						   "............................",
 						   ".............T1............."};
-						   
-						   
-	
+
+
+
 
 		levels.add(level1);
 
@@ -457,7 +457,7 @@ public class LevelManager {
 						"............................",
 						"............................",
 						"............................"};
-        
+
         levels.add(level7);
 
 
@@ -493,6 +493,38 @@ public class LevelManager {
 		levels.add(level8);
 
 
+		String[] level9 = {"T............WWWW..........T",
+				           "..............T.............",
+				           ".............W.W............",
+				           ".............W.W............",
+				           ".............W.W............",
+				           ".............W.W............",
+				           ".............W.W............",
+				           ".............W.W............",
+				           ".............W.W............",
+				           ".............W.W............",
+				           ".WWWWWWWWWWWWW.W............",
+				           ".............W.W............",
+				           ".WWWWWWWWWWW.W.W............",
+				           ".W...........W.WT...........",
+				           ".W.WWWWWWWWWTW.WW..........T",
+				           "T8..TWWWWWWWWW.TW....WWWWWWW",
+				           "WWT.......TWWWWWWWWW.W.T...7",
+				           "WWWWW.........T........WWWWW",
+				           ".6.....TW.TWWTWTWWT.....WWWW",
+				           ".WWWWWWWWWWWWW1WWWWWWWW....9",
+				           "...............WT...........",
+				           "WWWWWWWWWWWWWW.W............",
+				           "T..............WT..........X",
+				           "WWWWWWWWWWWWWW.WWWWWWWWWWWWW",
+				           "5............402...........3",
+				           "WW..WWWW..WWWW.WWWW.WWWWW..W",
+				           "WW.....WWWW.TW.WT.WWWTWWW..W",
+				           "WWWWW.......WWPWW..........W",};
+
+		levels.add(level9);
+
+
 
 
 		String[] level10 = {"X...........................",
@@ -525,9 +557,9 @@ public class LevelManager {
 						    "............................"};
 
 		levels.add(level10);
-		
-		
-		
+
+
+
 
 	}
 
