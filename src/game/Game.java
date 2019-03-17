@@ -339,13 +339,14 @@ public class Game extends JPanel implements Runnable {
 		graphics2d.drawString("Treasures Collected = " + treasuresCollected
 				+ " / " + noOFTreasuresInLevel, gridSize * 31, screenHeight / 3);
 		graphics2d.setFont(font2);
-		graphics2d.drawString("Control the burglar (black rectangle) with the arrow keys!", gridSize * 31, (int)(screenHeight / 1.3f));
-		graphics2d.drawString("Steal all the treasures (yellow) to advance to the next level."
+		graphics2d.drawString("   Mission Objectives:", gridSize * 31, (int)(screenHeight / 1.36f));
+		graphics2d.drawString("* Control the burglar (black rectangle) with the arrow keys!", gridSize * 31, (int)(screenHeight / 1.3f));
+		graphics2d.drawString("* Steal all the treasures (yellow) to advance to the next level."
 				, gridSize * 31, (int)(screenHeight / 1.25f));
-		graphics2d.drawString("Avoid burglar alarm lasers (red) or you will be caught!"
-				, gridSize * 31, (int)(screenHeight / 1.2f));
-		graphics2d.drawString("When all treasures are stolen a green exit door will appear."
-				, gridSize * 31, (int)(screenHeight / 1.15f));
+		graphics2d.drawString("* Avoid burglar alarm lasers (red) or you will be caught!"
+				, gridSize * 31, (int)(screenHeight / 1.203f));
+		graphics2d.drawString("* When all treasures are stolen a green exit door will appear."
+				, gridSize * 31, (int)(screenHeight / 1.16f));
 	}
 
 
