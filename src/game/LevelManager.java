@@ -460,7 +460,7 @@ public class LevelManager {
 
 
 
-		// LEVEL 9
+		// LEVEL 9 HERE
 
 
 		String[] level10 = {"X...........................",
