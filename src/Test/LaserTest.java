@@ -6,8 +6,7 @@ import org.junit.Test;
 
 import java.awt.Point;
 
-import game.Game;
-import game.InputManager;
+
 import game.Laser;
 
 public class LaserTest {
