@@ -73,6 +73,7 @@ public class PlayerTest {
 	}
 
 
+	
 
 	/**
 	 *  Testar så att Player flyttas åt rätt håll

@@ -14,6 +14,7 @@ public class GameTest {
 	/*
 	 * 
 	 * Ett test för att kolla om initeringen av Threaden blir gjort utan problem
+	 * (Skulle vara önskavärt att få till ett test som kollar att run körs)
 	 */
 
 /*
