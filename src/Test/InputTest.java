@@ -2,9 +2,6 @@ package Test;
 
 import static org.junit.Assert.assertEquals;
 
-import java.awt.Rectangle;
-import java.awt.event.KeyEvent;
-
 import org.junit.Test;
 
 import game.Direction;
@@ -21,6 +18,7 @@ public class InputTest {
 	public void testInputManagerDefaultState() {
 		// Act
 		Direction dir;
+		//KeyEvent e = KeyEvent.VK_RIGHT;
 		InputManager input = new  InputManager();
 		dir = input.getPlayerInput();
 		// Assert
