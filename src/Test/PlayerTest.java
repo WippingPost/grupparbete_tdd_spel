@@ -68,12 +68,11 @@ public class PlayerTest {
 		int actualCoordinateX = actual.x;
 		int actualCoordinateY = actual.y;
 		// Assert
-		assertEquals(503, actualCoordinateX);
-		assertEquals(503, actualCoordinateY);
+		assertEquals(505, actualCoordinateX);
+		assertEquals(505, actualCoordinateY);
 	}
 
 
-	
 
 	/**
 	 *  Testar så att Player flyttas åt rätt håll
@@ -83,11 +82,11 @@ public class PlayerTest {
 	// 
 	@Test
 	@Parameters({
-		"LEFT, 501, 503",
-		"RIGHT, 505, 503",
-		"UP, 503, 501",
-		"DOWN, 503, 505",
-		"IDLE, 503, 503"
+		"LEFT, 502, 505",
+		"RIGHT, 508, 505",
+		"UP, 505, 502",
+		"DOWN, 505, 508",
+		"IDLE, 505, 505"
 	})
 	public void testPlayerMoveLeft(Direction direction, int expectedX, int expectedY) {
 

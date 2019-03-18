@@ -31,7 +31,7 @@ public class TreasureTest {
 		Rectangle actual = treasure.getHitBox();
 		int actualCoordinateX = actual.x;
 		int actualCoordinateY = actual.y;
-		assertEquals(509, actualCoordinateX);
+		assertEquals(510, actualCoordinateX);
 		assertEquals(507, actualCoordinateY);
 	}
 	
