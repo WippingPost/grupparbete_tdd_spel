@@ -97,7 +97,7 @@ public class LevelManager {
 		}
 
 
-		// Create cooardinates for each game object
+		// Create coordinates for each game object
 		for (int y = 0; y < levels.get(levelNumber).length; y++) {				// Check for number of elements in String[]
 			for (int x = 0; x < levels.get(levelNumber)[y].length(); x++) {		// Check for length of each element in String[]
 
