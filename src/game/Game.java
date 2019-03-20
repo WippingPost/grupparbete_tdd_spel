@@ -451,6 +451,8 @@ public class Game extends JPanel implements Runnable {
             }
         }
 	}
-
+public int  getLevel() {
+	return level;
+}
 }
 
