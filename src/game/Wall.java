@@ -1,36 +1,45 @@
 package game;
 
-import java.awt.Color;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class Wall {
 
 	private int width, height, x, y;
 	private Rectangle hitBox;
-	// Setting the color of the object
-	private Color color = new Color(64, 64, 64); 	// Gray
+	private BufferedImage image = null;
 
 	public Wall(Point point, int gridSize) {
 
+		try {
+			image = ImageIO.read(new File("Assets/Wall/wall3.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		// Scaling object to fit screen size
-		height = (int)(gridSize * 0.9f);	// Making it a little smaller than gridSize
-		width = height;
+		height = gridSize;
+		width = gridSize;
 		// Centering the wall in the grid
-		x = point.x + (gridSize - width) / 2;
-		y = point.y + (gridSize - height) / 2;
+		x = point.x;
+		y = point.y;
 
 		// Setting the size and position of the wall.
 		hitBox = new Rectangle(x, y, width, height);
 
 	}
 
-	public Rectangle getHitBox() {
-		return hitBox;
+
+	public BufferedImage getImage() {
+		return image;
 	}
 
-
-	public Color getColor() {
-		return color;
+	public Rectangle getHitBox() {
+		return hitBox;
 	}
 }

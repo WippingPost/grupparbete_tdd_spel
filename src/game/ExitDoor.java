@@ -1,8 +1,12 @@
 package game;
 
-import java.awt.Color;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class ExitDoor {
 
@@ -12,21 +16,26 @@ public class ExitDoor {
 	private long timeNow, spawnTime, deltaTime;  // Timers for door blinking when spawning
 	private final int BLINK_TIME = 5000;
 	private final int BLINK_INTERVAL = 300;
-	// Setting the color of the door
-	private Color color = new Color(51, 102, 0); // Green
+	private BufferedImage image;
 
 
 	// Creating door at position
 	public ExitDoor(Point point, int gridSize) {
 
+		try {
+			image = ImageIO.read(new File("Assets/ExitDoor.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		// Size of game object
 		//height = (int)(gridSize * 0.9f);
 		//width = (int)(gridSize * 0.9f);
-		height = (int)(gridSize * 1.2f);
-		width = (int)(gridSize * 1.2f);;
+		height = gridSize;
+		width = gridSize;
 		// Centering the Object in the grid
-		x = point.x + (gridSize - width) / 2;
-		y = point.y + (gridSize - height) / 2;
+		x = point.x;
+		y = point.y;
 
 		// Setting position of the door.
 		hitBox = new Rectangle(x, y, width, height);
@@ -77,6 +86,11 @@ public class ExitDoor {
 	}
 
 
+	public BufferedImage getImage() {
+		return image;
+	}
+
+
 	public Rectangle getHitBox() {
 		return hitBox;
 	}
@@ -84,11 +98,6 @@ public class ExitDoor {
 
 	public boolean contains(Rectangle other) {
 		return hitBox.contains(other);		// Returns true if object is completely surrounded by hitBox
-	}
-
-
-	public Color getColor() {
-		return color;
 	}
 
 }

@@ -43,6 +43,7 @@ public class Game extends JPanel implements Runnable {
 	private ArrayList<Treasure> treasureList = new ArrayList<>();
 	private ArrayList<Wall> wallList= new ArrayList<>();
 	private ArrayList<Laser> laserList= new ArrayList<>();
+	private ArrayList<Ground> groundList = new ArrayList<>();
 
 
 
@@ -126,24 +127,32 @@ public class Game extends JPanel implements Runnable {
 		graphics2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
+
 		// TODO Draw Loading Screen if active
 		if (!loadingScreen) {
 
 			// Draw the game board
+
+			// Draw ground
+			for (Ground ground : groundList) {
+				graphics2d.drawImage(ground.getImage(), ground.getHitBox().x, ground.getHitBox().y,
+						ground.getHitBox().width, ground.getHitBox().height, null);
+			}
+
 			// Draw walls
 			for (Wall wall : wallList) {
-				graphics2d.setColor(wall.getColor());
-				graphics2d.fill(wall.getHitBox());
+				graphics2d.drawImage(wall.getImage(), wall.getHitBox().x, wall.getHitBox().y,
+						wall.getHitBox().width, wall.getHitBox().height, null);
 			}
 
 			// Draw treasures
 			for (Treasure treasure : treasureList) {
-				graphics2d.setColor(treasure.getColor());
 				// Only draw if still active (not picked up by player)
 				if (treasure.isActive()) {
-					graphics2d.fillRoundRect(treasure.getHitBox().x, treasure.getHitBox().y,
-							treasure.getHitBox().width, treasure.getHitBox().height, 6 , 6);
+					graphics2d.drawImage(treasure.getImage(), treasure.getHitBox().x, treasure.getHitBox().y,
+							treasure.getHitBox().width, treasure.getHitBox().height, null);
 				}
+
 			}
 
 
@@ -169,14 +178,13 @@ public class Game extends JPanel implements Runnable {
 
 			// Draw Exit door if active and visible
 			if (exitDoor.isVisible()) {
-				graphics2d.setColor(exitDoor.getColor());
-				graphics2d.fill(exitDoor.getHitBox());
+				graphics2d.drawImage(exitDoor.getImage(), exitDoor.getHitBox().x, exitDoor.getHitBox().y,
+						exitDoor.getHitBox().width, exitDoor.getHitBox().height, null);
 			}
 
 			// Draw player
-			graphics2d.setColor(player.getColor());
-			graphics2d.fillRoundRect(player.getHitBox().x, player.getHitBox().y,
-					player.getHitBox().width, player.getHitBox().height, 5, 5);
+			graphics2d.drawImage(player.getImage(), player.getHitBox().x, player.getHitBox().y,
+					player.getHitBox().width, player.getHitBox().height, null);
 
 			// Drawing score etc...
 			drawInformation(graphics2d);
@@ -309,7 +317,8 @@ public class Game extends JPanel implements Runnable {
 		if (gameOver && (nowTime - deltaTime) > 4000) {		// 4 second wait
 			loadingScreen = false;
 			loadLevel(level);
-
+			// Adds the time it took to load next level
+			lastTimeUpdate += (System.currentTimeMillis() - nowTime);
 		}
 
 		if (levelCleared && (nowTime - deltaTime) > 4000) {		// 4 second wait
@@ -321,6 +330,8 @@ public class Game extends JPanel implements Runnable {
 				loadLevel(level);
 			}
 			loadingScreen = false;
+			// Adds the time it took to load next level
+			lastTimeUpdate += (System.currentTimeMillis() - nowTime);
 		}
 	}
 
@@ -389,6 +400,7 @@ public class Game extends JPanel implements Runnable {
 		wallList.clear();
 		treasureList.clear();
 		laserList.clear();
+		groundList.clear();
 
 		// Loading all game objects into separate lists
 		levelManager.setNextLevel(level);
@@ -433,6 +445,12 @@ public class Game extends JPanel implements Runnable {
 		y = levelManager.getPlayer().y * gridSize;
 		player = new Player(new Point(x, y), gridSize);
 
+		// Ground object
+		for (Point point : levelManager.getGroundList()) {
+			x = point.x * gridSize;
+			y = point.y * gridSize;
+			groundList.add(new Ground(new Point(x, y), gridSize));
+		}
 	}
 
 

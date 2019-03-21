@@ -9,6 +9,7 @@ public class LevelManager {
 	private ArrayList<Point> walls;
 	private ArrayList<Point> treasures;
 	private ArrayList<Point> lasers;
+	private ArrayList<Point> groundList;
 	private Point player, exitDoor;
 
 
@@ -56,6 +57,7 @@ public class LevelManager {
 		walls = new ArrayList<>();
 		treasures = new ArrayList<>();
 		lasers = new ArrayList<>();
+		groundList = new ArrayList<>();
 
 		// Load levels into a list
 		initiateLevels();
@@ -73,6 +75,8 @@ public class LevelManager {
 		walls.clear();
 		treasures.clear();
 		lasers.clear();
+		groundList.clear();
+
 		ArrayList<Point> tempLasers = new ArrayList<>();
 		// Fills up the temporary list for now
 		for (int i = 0; i <= 9; i++) {
@@ -86,12 +90,16 @@ public class LevelManager {
 		Point currentPoint = new Point();
 
 		// First we add the surrounding walls to the board
+		// And the ground points
 		for (int y = 0; y < surroundingWalls.length; y++) {
 			for (int x = 0; x < surroundingWalls[y].length(); x++) {
 
 				currentCharacter = surroundingWalls[y].charAt(x);
 				if (currentCharacter == 'W') {
 					walls.add(new Point(x, y));
+				} else {
+					// If it's not a surrounding wall object then it's ground.
+					groundList.add(new Point(x, y));
 				}
 			}
 		}
@@ -557,7 +565,7 @@ public class LevelManager {
 						    "............................"};
 
 		levels.add(level10);
-		
+
 		String[] level11 = {"............................",
 						    "P...........................",
 						    "............................",
@@ -603,6 +611,10 @@ levels.add(level11);
 
 	public ArrayList<Point> getLasers() {
 		return lasers;
+	}
+
+	public ArrayList<Point> getGroundList() {
+		return groundList;
 	}
 
 	public Point getExitDoor() {

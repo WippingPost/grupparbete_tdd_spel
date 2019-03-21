@@ -1,8 +1,13 @@
 package game;
 
-import java.awt.Color;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.Random;
+
+import javax.imageio.ImageIO;
 
 public class Treasure {
 
@@ -11,15 +16,52 @@ public class Treasure {
 	private Rectangle hitBox, smallHitBox, largeHitBox;
 	private boolean visible;
 	private long nowTime, deltaTime;
-	// Setting the color of the object
-	private Color color = new Color(255, 153, 51); 	// Orange
+	private BufferedImage image = null;
+	private BufferedImage treasure = null;
+	private BufferedImage treasure1 = null;
+	private BufferedImage treasure2 = null;
+	private BufferedImage treasure3 = null;
+	private BufferedImage treasure4 = null;
 
 	// Constructor
 	public Treasure(Point point, int gridSize) {
 
+		try {
+			treasure = ImageIO.read(new File("Assets/Treasure/treasure.png"));
+			treasure1 = ImageIO.read(new File("Assets/Treasure/treasure1.png"));
+			treasure2 = ImageIO.read(new File("Assets/Treasure/treasure2.png"));
+			treasure3 = ImageIO.read(new File("Assets/Treasure/treasure3.png"));
+			treasure4 = ImageIO.read(new File("Assets/Treasure/treasure4.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		// Deciding what kind of image for treasure object.
+		int random = new Random().nextInt(5);
+		switch(random) {
+
+		case 0:
+			image = treasure;
+			break;
+		case 1:
+			image = treasure1;
+			break;
+		case 2:
+			image = treasure2;
+			break;
+		case 3:
+			image = treasure3;
+			break;
+		case 4:
+			image = treasure4;
+			break;
+		}
+
+
 		// Size of small game object
-		height = (gridSize * 0.50f);
-		width = (gridSize * 0.30f);
+		height = (gridSize * 0.75f);
+		//width = (gridSize * 0.30f);
+		width = (gridSize * 0.75f);
 
 		// Centering the Object in the grid
 		x = (int)(point.x + (gridSize - width) / 2);
@@ -29,8 +71,9 @@ public class Treasure {
 		smallHitBox = new Rectangle(x, y, (int)width, (int)height);
 
 		// Size of large game object
-		height = (gridSize * 0.55f);
-		width = (gridSize * 0.34f);
+		height = (gridSize * 0.80f);
+		//width = (gridSize * 0.34f);
+		width = (gridSize * 0.80f);
 
 		// Centering the Object in the grid
 		x = (int)(point.x + (gridSize - width) / 2);
@@ -63,6 +106,11 @@ public class Treasure {
 	}
 
 
+	public BufferedImage getImage() {
+		return image;
+	}
+
+
 	public void setPickedUp() {
 		visible = false;
 	}
@@ -75,11 +123,6 @@ public class Treasure {
 
 	public Rectangle getHitBox() {
 		return hitBox;
-	}
-
-
-	public Color getColor() {
-		return color;
 	}
 
 }
