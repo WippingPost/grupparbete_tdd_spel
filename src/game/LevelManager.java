@@ -557,6 +557,38 @@ public class LevelManager {
 						    "............................"};
 
 		levels.add(level10);
+		
+		String[] level11 = {"............................",
+						    "P...........................",
+						    "............................",
+						    "........WW0.......1WW.......",
+						    "........WW....T....WW.......",
+							".........WW.......WW........",
+							".........WW2.....3WW........",
+						    "..........WW..T..WW.........",
+						    "..........WW.....WW.........",
+						    ".......WWWWWWWWWWWWWW.......",
+						    ".......WWWWWWWWWWWWWW.......",
+						    ".....WWWW..WWWWWW..WWWW.....",
+						    ".....WWWWX.WWWWWW..WWWW.....",
+						    "...WWWWWWWWWWWWWWWWWWWWWW...",
+						    "...WWWWWWWWWWWWWWWWWWWWWW...",
+						    ".WW.TWWWWWWWWWWWWWWWWWWT.WW.",
+						    ".WW..WWWWWWWWWWWWWWWWWW..WW.",
+						    ".WW..WWWWWWWWWWWWWWWWWW..WW.",
+						    ".WW..WWWWWWWWWWWWWWWWWW..WW.",
+						    ".WW..WW6...........T7WW..WW.",
+						    ".WW..WW4T...........5WW..WW.",
+						    ".......WWWWWW..WWWWWW.......",
+						    ".......WWWWWW..WWWWWW.......",
+						    "............................",
+						    "............................",
+						    "............................",
+						    "............................",
+						    "............................",
+						    "............................"};
+
+levels.add(level11);
 
 
 	}
