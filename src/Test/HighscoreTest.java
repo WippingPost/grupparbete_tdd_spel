@@ -1,60 +1,100 @@
 package Test;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
+
 import static org.junit.Assert.*;
 
 import java.io.*;
 
 public class HighscoreTest {
 
+	//Använder oss av temporaryFolder för att ta bort filer vid avslutat test
+	  @Rule
+	  public TemporaryFolder folder= new TemporaryFolder();
+
+	
     @Test
     public void checkForHighscoreFile(){
         //Arrange
-        File file = new File("src/Test/txt/highscore.txt");
+    	File CreateFolder = null;
+    	File CreateFile = null;
+    	try {
+    		 CreateFolder = folder.newFolder("txt");
+    		 CreateFile = folder.newFile("highscore.txt");
+    		
+    	}catch(IOException e) {
+    		e.printStackTrace();
+    	}
         boolean exist;
 
         // Act
-        if (!file.exists()){
+        if (!CreateFile.exists()){
             try {
-                file.createNewFile();
+            	CreateFile.createNewFile();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
-        exist = file.exists();
+        exist = CreateFile.exists();
 
         //Assert
         assertTrue(exist);
 
     }
-
+    
     @Test
     public void writeToHighscoreFile(){
         //Arrange
-        File file = new File("src/Test/txt/highscore.txt");
-        boolean exist;
-
+        //File file = new File("src/Test/txt/highscore.txt");
+    	File CreateFolder = null;
+    	File CreateFile = null;
+    	try {
+    		 CreateFolder = folder.newFolder("txt");
+    		 CreateFile = folder.newFile("highscore.txt");
+    		
+    	}catch(IOException e) {
+    		e.printStackTrace();
+    	}
+    	boolean writable = false;
         //Act
-        if (file.exists()){
-
+        if (CreateFile.exists()){
+        	if(CreateFile.canWrite()) {
+        		writable = true;
+        	}
         }
 
 
         //Assert
-
+        assertTrue(writable);
 
     }
 
     @Test
     public void readFromHighscoreFile(){
         //Arrange
-        File file = new File("src/Test/txt/highscore.txt");
+    	File CreateFolder = null;
+    	File CreateFile = null;
+    	try {
+    		 CreateFolder = folder.newFolder("txt");
+    		 CreateFile = folder.newFile("highscore.txt");
+    		
+    	}catch(IOException e) {
+    		e.printStackTrace();
+    	}
+    	boolean readable = false;
 
         //Act
-
+        if (CreateFile.exists()){
+        	if(CreateFile.canRead()) {
+        		readable = true;
+        	}
+        }
 
         //Assert
+        assertTrue(readable);
 
 
     }
