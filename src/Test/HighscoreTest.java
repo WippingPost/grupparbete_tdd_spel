@@ -1,6 +1,5 @@
 package Test;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -15,7 +14,7 @@ public class HighscoreTest {
         boolean exist;
 
         // Act
-        if (!file.exists()) {
+        if (!file.exists()){
             try {
                 file.createNewFile();
             } catch (Exception e) {
@@ -27,6 +26,36 @@ public class HighscoreTest {
 
         //Assert
         assertTrue(exist);
+
+    }
+
+    @Test
+    public void writeToHighscoreFile(){
+        //Arrange
+        File file = new File("src/Test/txt/highscore.txt");
+        boolean exist;
+
+        //Act
+        if (file.exists()){
+
+        }
+
+
+        //Assert
+
+
+    }
+
+    @Test
+    public void readFromHighscoreFile(){
+        //Arrange
+        File file = new File("src/Test/txt/highscore.txt");
+
+        //Act
+
+
+        //Assert
+
 
     }
 
