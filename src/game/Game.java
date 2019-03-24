@@ -26,13 +26,20 @@ public class Game extends JPanel implements Runnable {
 	private Dimension screenSize;
 	private int screenWidth, screenHeight;
 	private final int gridSize, gameStartX, gameStartY, gameEndX;
-	private Thread gameThread = null;
     private boolean pausedState, running, levelCleared, gameOver, loadingScreen;
 	private int maxFps = 60;	// Target frame rate
 	private long maxFrameTime = 1000 / maxFps;	 // Frame time at maxFps
 	private int fps, frameCounter, level;
 	private long thisFrameTimeStart, lastTimeUpdate;
 	private long nowTime, deltaTime;
+
+	// Variables for timing the player on each level
+	private double timeThisLevel;
+	private boolean newLevel;
+	// Timer object for timing the player on each level
+	private Timer timer;
+
+	private Thread gameThread = null;
 	private Player player;
 	private InputManager inputManager;
 	private LevelManager levelManager;
@@ -64,6 +71,7 @@ public class Game extends JPanel implements Runnable {
 		screenHeight = (int)screenSize.getHeight();
 		// This sets the size (in pixels) of each grid on the game board
 		gridSize = screenHeight / 31;
+		// Centering the gameboard on the screen
 		gameStartX = (screenWidth / 2) - ((gridSize * 30) / 2);
 		gameStartY = gridSize / 2;
 		gameEndX = gameStartX + (gridSize * 30);
@@ -73,10 +81,10 @@ public class Game extends JPanel implements Runnable {
 		font2 = new Font("Serif", Font.PLAIN, screenHeight / 55);
 
 		levelManager = new LevelManager();
-		//setBackground(Color.GRAY);
+		timer = new Timer();
 		this.inputManager = inputManager;	// Used to handle player input
 
-		level = 1;	// Setting first level number
+		level = 1;	// Setting starting level number
 		frameCounter = 0;	// Counting frames per second
 		gameOver = false;
 		levelCleared = false;
@@ -86,7 +94,6 @@ public class Game extends JPanel implements Runnable {
 		try {
 			background = ImageIO.read(new File("Assets/background.png"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -115,7 +122,19 @@ public class Game extends JPanel implements Runnable {
 			// So it knows how long it takes to finish each frame
 			thisFrameTimeStart = System.currentTimeMillis();
 
-			getPlayerInput();	// Did the player press any keys?
+
+			// Start the timer if a new level just was started
+			if (newLevel) {
+				newLevel = false;
+				timer.start();
+
+			// Else update the time since level start
+			} else {
+				timeThisLevel = timer.getPassedTime();
+			}
+
+			// Did the player press any keys?
+			getPlayerInput();
 
 			// Updating logics, positions etc...
 			if (!loadingScreen) {
@@ -241,8 +260,8 @@ public class Game extends JPanel implements Runnable {
 	private void updateGame() {
 
 		// Collision detection
-		// TODO Did player hit a laser?
 
+		// Did player hit a laser?
 		for (Laser laser : laserList){
 
             line = new Line2D.Float(laser.getPoint1(), laser.getPoint2());
@@ -253,19 +272,18 @@ public class Game extends JPanel implements Runnable {
 				gameOver = true;
 				deltaTime = System.currentTimeMillis();
 			}
-
-
 		}
 
+		// Did player hit a wall object?
 		for(Wall wall : wallList) {
 			//Vi fångar om player collide med väggen
 			if(player.collideWith(wall.getHitBox())) {
 				player.resetPosition();
-
 			}
 		}
 
-		// TODO Did player pick up the last treasure? If so, activate exit door!
+
+		// Did player pick up the last treasure? If so, activate exit door!
 		for (Treasure other : treasureList) {
 			if (other.isActive() && player.collideWith(other.getHitBox())) {
 				other.setPickedUp();
@@ -282,23 +300,28 @@ public class Game extends JPanel implements Runnable {
 			}
 		}
 
+
 		// Did player exit the game?
 		if (exitDoor.isActive() && !pausedState) {
 			if (exitDoor.contains(player.getHitBox())) {
 				player.inActivate();	// Inactivates the player while loading new level
 				levelCleared = true;
 				deltaTime = System.currentTimeMillis();
+				timer.stop();  // Stops the timer for played time
 				pausedState = true;
 			}
 			exitDoor.update();
 		}
 
-		// ...
 
-		// TODO Update laser
+		// Updating game objects
+
+		// Update laser
 		for (Laser laser : laserList) {
 			laser.update();
 		}
+
+
 		// Update player if active
 		if (player.isActive()) {
 			player.update(fps);
@@ -366,10 +389,11 @@ public class Game extends JPanel implements Runnable {
 		// Draw current fps
 		graphics2d.setColor(Color.BLACK);
 		graphics2d.setFont(font2);
-		graphics2d.drawString("FPS = " + fps, gridSize, gridSize);
+		//graphics2d.drawString("FPS = " + fps, gridSize, gridSize);
 		graphics2d.setFont(font);
-		graphics2d.drawString("LEVEL " + level, gridSize, gridSize * 2);
-		graphics2d.drawString("TREASURES STOLEN = " + treasuresCollected
+		graphics2d.drawString("LEVEL " + level, gridSize, gridSize);
+		graphics2d.drawString("TIME: " + timeThisLevel, gridSize, gridSize * 3);
+		graphics2d.drawString("TREASURES STOLEN: " + treasuresCollected
 				+ " / " + noOFTreasuresInLevel, gridSize, gridSize * 5);
 		graphics2d.drawString("ESC = QUIT GAME", gridSize, gridSize * 28);
 
@@ -458,6 +482,7 @@ public class Game extends JPanel implements Runnable {
 	private void loadLevel(int level) {
 
 		levelCleared = false;
+		newLevel = true;
 		gameOver = false;
 
 		int x = 0;
