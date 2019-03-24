@@ -578,7 +578,7 @@ public class LevelManager {
 						    ".......WWWWWWWWWWWWWW.......",
 						    ".......WWWWWWWWWWWWWW.......",
 						    ".....WWWW..WWWWWW..WWWW.....",
-						    ".....WWWWX.WWWWWW..WWWW.....",
+						    ".....WWWW..WWWWWW..WWWW.....",
 						    "...WWWWWWWWWWWWWWWWWWWWWW...",
 						    "...WWWWWWWWWWWWWWWWWWWWWW...",
 						    ".WW.TWWWWWWWWWWWWWWWWWWT.WW.",
@@ -593,8 +593,7 @@ public class LevelManager {
 						    "............................",
 						    "............................",
 						    "............................",
-						    "............................",
-						    "............................"};
+						    "...........................X"};
 
 levels.add(level11);
 

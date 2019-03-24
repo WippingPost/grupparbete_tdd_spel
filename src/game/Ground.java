@@ -42,5 +42,4 @@ public class Ground {
 	public Rectangle getHitBox() {
 		return hitBox;
 	}
-
 }

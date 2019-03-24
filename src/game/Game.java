@@ -4,14 +4,19 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.geom.Line2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 
@@ -20,7 +25,7 @@ public class Game extends JPanel implements Runnable {
 
 	private Dimension screenSize;
 	private int screenWidth, screenHeight;
-	private final int gridSize;
+	private final int gridSize, gameStartX, gameStartY, gameEndX;
 	private Thread gameThread = null;
     private boolean pausedState, running, levelCleared, gameOver, loadingScreen;
 	private int maxFps = 60;	// Target frame rate
@@ -39,6 +44,9 @@ public class Game extends JPanel implements Runnable {
 	private Font font;
 	private Font font2;
 
+	// Background image
+	private BufferedImage background;
+
 	// ArrayLists of game objects
 	private ArrayList<Treasure> treasureList = new ArrayList<>();
 	private ArrayList<Wall> wallList= new ArrayList<>();
@@ -55,14 +63,17 @@ public class Game extends JPanel implements Runnable {
 		screenWidth = (int)screenSize.getWidth();
 		screenHeight = (int)screenSize.getHeight();
 		// This sets the size (in pixels) of each grid on the game board
-		gridSize = screenHeight / 32;
+		gridSize = screenHeight / 31;
+		gameStartX = (screenWidth / 2) - ((gridSize * 30) / 2);
+		gameStartY = gridSize / 2;
+		gameEndX = gameStartX + (gridSize * 30);
 
 		// Text font and size
-		font = new Font("Serif", Font.BOLD, screenHeight / 30);
-		font2 = new Font("Serif", Font.PLAIN, screenHeight / 50);
+		font = new Font("Serif", Font.BOLD, screenHeight / 40);
+		font2 = new Font("Serif", Font.PLAIN, screenHeight / 55);
 
 		levelManager = new LevelManager();
-		setBackground(Color.GRAY);
+		//setBackground(Color.GRAY);
 		this.inputManager = inputManager;	// Used to handle player input
 
 		level = 1;	// Setting first level number
@@ -70,6 +81,14 @@ public class Game extends JPanel implements Runnable {
 		gameOver = false;
 		levelCleared = false;
 		fps = maxFps;	// Setting fps for the first second of the game
+
+		// Setting background image
+		try {
+			background = ImageIO.read(new File("Assets/background.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		// Loading the level and it's game objects into memory
 		loadLevel(level);
@@ -127,6 +146,9 @@ public class Game extends JPanel implements Runnable {
 		graphics2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
+		// Draw background
+		graphics2d.drawImage(background, 0, 0, screenWidth, screenHeight, null);
+
 
 		// TODO Draw Loading Screen if active
 		if (!loadingScreen) {
@@ -138,6 +160,7 @@ public class Game extends JPanel implements Runnable {
 				graphics2d.drawImage(ground.getImage(), ground.getHitBox().x, ground.getHitBox().y,
 						ground.getHitBox().width, ground.getHitBox().height, null);
 			}
+
 
 			// Draw walls
 			for (Wall wall : wallList) {
@@ -207,6 +230,9 @@ public class Game extends JPanel implements Runnable {
 
 		player.setDirection(inputManager.getPlayerInput());
 
+		// Check to see if to quit game
+		running = inputManager.getGameState();
+
 	}
 
 
@@ -261,7 +287,6 @@ public class Game extends JPanel implements Runnable {
 			if (exitDoor.contains(player.getHitBox())) {
 				player.inActivate();	// Inactivates the player while loading new level
 				levelCleared = true;
-				level++;
 				deltaTime = System.currentTimeMillis();
 				pausedState = true;
 			}
@@ -324,9 +349,10 @@ public class Game extends JPanel implements Runnable {
 		if (levelCleared && (nowTime - deltaTime) > 4000) {		// 4 second wait
 
 			// Did we reach the last level? If so, quit the game
-			if (levelManager.getNumberOfLevels() < level) {
+			if (levelManager.getNumberOfLevels() == level) {
 				running = false;
 			} else {
+				level++;
 				loadLevel(level);
 			}
 			loadingScreen = false;
@@ -340,24 +366,22 @@ public class Game extends JPanel implements Runnable {
 		// Draw current fps
 		graphics2d.setColor(Color.BLACK);
 		graphics2d.setFont(font2);
-		graphics2d.drawString("FPS = " + fps, gridSize * 31, gridSize);
+		graphics2d.drawString("FPS = " + fps, gridSize, gridSize);
 		graphics2d.setFont(font);
-		if (!pausedState) {
-			graphics2d.drawString("LEVEL " + level, gridSize * 31, screenHeight / 4);
-		} else {
-			graphics2d.drawString("LEVEL " + (level - 1), gridSize * 31, screenHeight / 4);
-		}
-		graphics2d.drawString("Treasures Collected = " + treasuresCollected
-				+ " / " + noOFTreasuresInLevel, gridSize * 31, screenHeight / 3);
+		graphics2d.drawString("LEVEL " + level, gridSize, gridSize * 2);
+		graphics2d.drawString("TREASURES STOLEN = " + treasuresCollected
+				+ " / " + noOFTreasuresInLevel, gridSize, gridSize * 5);
+		graphics2d.drawString("ESC = QUIT GAME", gridSize, gridSize * 28);
+
 		graphics2d.setFont(font2);
-		graphics2d.drawString("   Mission Objectives:", gridSize * 31, (int)(screenHeight / 1.36f));
-		graphics2d.drawString("* Control the burglar (black rectangle) with the arrow keys!", gridSize * 31, (int)(screenHeight / 1.3f));
-		graphics2d.drawString("* Steal all the treasures (yellow) to advance to the next level."
-				, gridSize * 31, (int)(screenHeight / 1.25f));
-		graphics2d.drawString("* Avoid burglar alarm lasers (red) or you will be caught!"
-				, gridSize * 31, (int)(screenHeight / 1.203f));
-		graphics2d.drawString("* When all treasures are stolen a green exit door will appear."
-				, gridSize * 31, (int)(screenHeight / 1.16f));
+		graphics2d.drawString("   Mission Objectives:", gameEndX + (gridSize / 2), gridSize * 4);
+		graphics2d.drawString("* Control the burglar (little Minion) with the arrow keys!", gameEndX + (gridSize / 2), gridSize * 5);
+		graphics2d.drawString("* Steal all the treasures to advance to the next level."
+				, gameEndX + (gridSize / 2), gridSize * 6);
+		graphics2d.drawString("* Avoid burglar alarm lasers or you will be caught!"
+				, gameEndX + (gridSize / 2), gridSize * 7);
+		graphics2d.drawString("* When all treasures are stolen an exit door will appear."
+				, gameEndX + (gridSize / 2), gridSize * 8);
 	}
 
 
@@ -365,24 +389,67 @@ public class Game extends JPanel implements Runnable {
 	// Draw Loading Screen
 	private void drawLoadingScreen(Graphics2D graphics2d) {
 
+		String text = "";
+		int x;
+
 		graphics2d.setColor(Color.BLACK);
 		graphics2d.setFont(font);
 
+		// If player was hit by laser
 		if (gameOver) {
-			graphics2d.drawString("YOU WERE CAUGHT STEALING!", screenWidth / 3, screenHeight / 4);
-			graphics2d.drawString("TRY AGAIN!", screenWidth / 3, screenHeight / 3);
+			text = "YOU WERE CAUGHT STEALING!";
+			// Center text
+			x = getXForText(text, graphics2d);
+			graphics2d.drawString(text, x, gridSize * 12);
+			text = "TRY AGAIN!";
+			// Center text
+			x = getXForText(text, graphics2d);
+			graphics2d.drawString(text, x, gridSize * 14);
 		}
 
-		if (levelCleared && levelManager.getNumberOfLevels() >= level) {
-			graphics2d.drawString("LEVEL CLEARED!", screenWidth / 3, screenHeight / 4);
-			graphics2d.drawString("LOADING LEVEL " + level, screenWidth / 3, screenHeight / 3);
+		// If player clears a level
+		if (levelCleared && levelManager.getNumberOfLevels() > level) {
+			text = "LEVEL CLEARED!";
+			// Center text
+			x = getXForText(text, graphics2d);
+			graphics2d.drawString(text, x, gridSize * 12);
+
+			text = "LOADING NEXT LEVEL";
+			// Center text
+			x = getXForText(text, graphics2d);
+			graphics2d.drawString(text, x, gridSize * 14);
 		}
 
-		if (levelCleared && (levelManager.getNumberOfLevels() < level)) {
-			graphics2d.drawString("ALL LEVELS CLEARED!", screenWidth / 3, screenHeight / 4);
-			graphics2d.drawString("GAME OVER!", screenWidth / 3, screenHeight / 3);
-			graphics2d.drawString("QUITING GAME!", screenWidth / 3, screenHeight / 2);
+		// If player clears the last level
+		if (levelCleared && (levelManager.getNumberOfLevels() == level)) {
+			text = "ALL LEVELS CLEARED!";
+			// Center text
+			x = getXForText(text, graphics2d);
+			graphics2d.drawString(text, x, gridSize * 12);
+
+			text = "GAME OVER!";
+			// Center text
+			x = getXForText(text, graphics2d);
+			graphics2d.drawString(text, x, gridSize * 14);
+
+			text = "QUITING GAME!";
+			// Center text
+			x = getXForText(text, graphics2d);
+			graphics2d.drawString("QUITING GAME!", x, gridSize * 16);
 		}
+	}
+
+
+	// Method to center text on the screen on the X coordinate
+	private int getXForText(String text, Graphics2D graphics2d) {
+
+		// Get the FontMetrics
+	    FontMetrics metrics = graphics2d.getFontMetrics(font);
+
+	    // Determine the X coordinate for the text
+	    int x = (screenWidth - metrics.stringWidth(text)) / 2;
+
+	    return x;
 	}
 
 
@@ -408,8 +475,8 @@ public class Game extends JPanel implements Runnable {
 		// Populating lists with new game objects
 		// The walls
 		for (Point point : levelManager.getWalls()) {
-			x = point.x * gridSize;
-			y = point.y * gridSize;
+			x = (gameStartX) + point.x * gridSize;
+			y = (gameStartY) + point.y * gridSize;
 			wallList.add(new Wall(new Point(x, y), gridSize));
 		}
 		// The treasures
@@ -417,8 +484,8 @@ public class Game extends JPanel implements Runnable {
 		noOFTreasuresInLevel = 0;
 		treasuresCollected = 0;
 		for (Point point : levelManager.getTreasures()) {
-			x = point.x * gridSize;
-			y = point.y * gridSize;
+			x = (gameStartX) + point.x * gridSize;
+			y = (gameStartY) + point.y * gridSize;
 			treasureList.add(new Treasure(new Point(x, y), gridSize));
 			noOFTreasuresInLevel ++;
 		}
@@ -427,28 +494,28 @@ public class Game extends JPanel implements Runnable {
 		Point point2;
 		for (int i = 0; i < levelManager.getLasers().size(); i = i + 2) {	// Getting the points of the lasers as pairs, therefore increment by 2
 			point1 = levelManager.getLasers().get(i);
-			point1.x = (point1.x * gridSize);
-			point1.y = (point1.y * gridSize);
+			point1.x = (gameStartX) + (point1.x * gridSize);
+			point1.y = (gameStartY) + (point1.y * gridSize);
 			point2 = levelManager.getLasers().get(i + 1);
-			point2.x = (point2.x * gridSize);
-			point2.y = (point2.y * gridSize);
+			point2.x = (gameStartX) + (point2.x * gridSize);
+			point2.y = (gameStartY) + (point2.y * gridSize);
 			laserList.add(new Laser(point1, point2, gridSize));
 		}
 
 		// Exit door
-		x = levelManager.getExitDoor().x * gridSize;
-		y = levelManager.getExitDoor().y * gridSize;
+		x = (gameStartX) + levelManager.getExitDoor().x * gridSize;
+		y = (gameStartY) + levelManager.getExitDoor().y * gridSize;
 		exitDoor = new ExitDoor(new Point(x, y), gridSize);
 
 		// Player
-		x = levelManager.getPlayer().x * gridSize;
-		y = levelManager.getPlayer().y * gridSize;
+		x = (gameStartX) + levelManager.getPlayer().x * gridSize;
+		y = (gameStartY) + levelManager.getPlayer().y * gridSize;
 		player = new Player(new Point(x, y), gridSize);
 
 		// Ground object
 		for (Point point : levelManager.getGroundList()) {
-			x = point.x * gridSize;
-			y = point.y * gridSize;
+			x = (gameStartX) + point.x * gridSize;
+			y = (gameStartY) + point.y * gridSize;
 			groundList.add(new Ground(new Point(x, y), gridSize));
 		}
 	}

@@ -59,9 +59,9 @@ public class Treasure {
 
 
 		// Size of small game object
-		height = (gridSize * 0.75f);
+		height = (gridSize * 0.60f);
 		//width = (gridSize * 0.30f);
-		width = (gridSize * 0.75f);
+		width = (gridSize * 0.60f);
 
 		// Centering the Object in the grid
 		x = (int)(point.x + (gridSize - width) / 2);
@@ -71,9 +71,9 @@ public class Treasure {
 		smallHitBox = new Rectangle(x, y, (int)width, (int)height);
 
 		// Size of large game object
-		height = (gridSize * 0.80f);
+		height = (gridSize * 0.65f);
 		//width = (gridSize * 0.34f);
-		width = (gridSize * 0.80f);
+		width = (gridSize * 0.65f);
 
 		// Centering the Object in the grid
 		x = (int)(point.x + (gridSize - width) / 2);

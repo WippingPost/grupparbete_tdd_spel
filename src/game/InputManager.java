@@ -8,6 +8,7 @@ import java.util.HashMap;
 public class InputManager implements KeyListener {
 
 	private Direction playerInput = Direction.IDLE;
+	private boolean gameRunning = true;
 
 	private HashMap<Integer, Direction> keys = new HashMap<>();  // Holds the key values if multiple keys are pressed
 
@@ -29,6 +30,10 @@ public class InputManager implements KeyListener {
 
 		if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 			playerInput = Direction.DOWN;
+		}
+
+		if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			gameRunning = false;
 		}
 
 		// Put playInput in HashMap to handle multiple keys pressed
@@ -60,6 +65,10 @@ public class InputManager implements KeyListener {
 
 	public Direction getPlayerInput() {
 		return playerInput;
+	}
+
+	public boolean getGameState() {
+		return gameRunning;
 	}
 
 }
