@@ -48,7 +48,6 @@ public class HighscoreTest {
     @Test
     public void writeToHighscoreFile(){
         //Arrange
-        //File file = new File("src/Test/txt/highscore.txt");
     	File CreateFolder = null;
     	File CreateFile = null;
     	try {
