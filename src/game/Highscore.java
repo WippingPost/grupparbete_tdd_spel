@@ -9,7 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 
-public class HighScore {
+public class Highscore {
 
 	private final String FILENAME = "highscore.txt";
 	private File file;
@@ -20,7 +20,7 @@ public class HighScore {
 
 
 	// Constructor
-	public HighScore() {
+	public Highscore() {
 
 		file = new File(FILENAME);
 
