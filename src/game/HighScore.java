@@ -9,7 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 
-public class Highscore {
+public class HighScore {
 
 	private final String FILENAME = "highscore.txt";
 	private File file;
