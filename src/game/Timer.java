@@ -43,7 +43,9 @@ public class Timer {
 	public double getFinalTime() {
 		return round(finalTime, 1);
 	}
-
+	public boolean getisRunning() {
+		return isRunning;
+	}
 
 	// Returns passed time as a double with selected number of decimals
 	private double round(double value, int noOfDecimals) {

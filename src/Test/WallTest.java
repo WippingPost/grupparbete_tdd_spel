@@ -25,7 +25,7 @@ public class WallTest {
 		Rectangle actual = wall.getHitBox();
 		int actualCoordinateX = actual.x;
 		int actualCoordinateY = actual.y;
-		assertEquals(501, actualCoordinateX);
-		assertEquals(501, actualCoordinateY);
+		assertEquals(500, actualCoordinateX);
+		assertEquals(500, actualCoordinateY);
 	}
 }

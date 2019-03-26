@@ -31,8 +31,8 @@ public class TreasureTest {
 		Rectangle actual = treasure.getHitBox();
 		int actualCoordinateX = actual.x;
 		int actualCoordinateY = actual.y;
-		assertEquals(510, actualCoordinateX);
-		assertEquals(507, actualCoordinateY);
+		assertEquals(506, actualCoordinateX);
+		assertEquals(506, actualCoordinateY);
 	}
 	
 	//testar om bolean visible blir false när man använder metoden setPickedUp.

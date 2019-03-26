@@ -53,8 +53,8 @@ public class ExitDoorTest {
 			Rectangle actual = Exit.getHitBox();
 			int actualCoordinateX = actual.x;
 			int actualCoordinateY = actual.y;
-			assertEquals(47, actualCoordinateX);
-			assertEquals(47, actualCoordinateY);
+			assertEquals(50, actualCoordinateX);
+			assertEquals(50, actualCoordinateY);
 	}
 
 	/**
