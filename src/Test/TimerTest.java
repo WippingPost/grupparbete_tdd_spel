@@ -33,6 +33,6 @@ public class TimerTest {
 	public void resetTest () {
 		timer.reset();
 		double acual = timer.getFinalTime();
-		assertEquals(0d, acual, 0.111);
+		assertEquals(0d, acual, 0.111);		
 	}
 }
