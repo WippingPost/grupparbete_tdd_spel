@@ -20,7 +20,7 @@ public class HighScore {
 
 
 	// Constructor
-	public Highscore() {
+	public HighScore() {
 
 		file = new File(FILENAME);
 

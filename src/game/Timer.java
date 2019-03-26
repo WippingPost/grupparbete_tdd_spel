@@ -40,6 +40,25 @@ public class Timer {
 		return round(passedTime, 1);
 	}
 
+
+	// Returns a string with passed time as minutes and seconds
+	public String getFormattedPassedTime() {
+
+		String passedTime = "";
+
+		int minutes = (int)(getPassedTime() / 60);
+		float seconds = (float)(getPassedTime() - minutes * 60);
+
+		if (minutes != 0) {
+			passedTime = "" + minutes + ":" + seconds;
+		} else {
+			passedTime = "" + getPassedTime();
+		}
+
+
+		return passedTime;
+	}
+
 	public double getFinalTime() {
 		return round(finalTime, 1);
 	}

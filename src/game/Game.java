@@ -400,13 +400,13 @@ public class Game extends JPanel implements Runnable {
 		// Do we have a fastest time to show?
 		if (bestTimeThisLevel != -1) {
 			graphics2d.setColor(Color.BLUE);
-			graphics2d.drawString("FASTEST TIME: " + bestTimeThisLevel, gridSize, gridSize * 3);
+			graphics2d.drawString("FASTEST TIME: " + getFormattedTime(bestTimeThisLevel), gridSize, gridSize * 3);
 			graphics2d.setColor(Color.BLACK);
-			graphics2d.drawString("TIME: " + timer.getPassedTime(), gridSize, gridSize * 5);
+			graphics2d.drawString("TIME: " + timer.getFormattedPassedTime(), gridSize, gridSize * 5);
 			graphics2d.drawString("TREASURES STOLEN: " + treasuresCollected
 					+ " / " + noOFTreasuresInLevel, gridSize, gridSize * 7);
 		} else {
-			graphics2d.drawString("TIME: " + timer.getPassedTime(), gridSize, gridSize * 3);
+			graphics2d.drawString("TIME: " + timer.getFormattedPassedTime(), gridSize, gridSize * 3);
 			graphics2d.drawString("TREASURES STOLEN: " + treasuresCollected
 					+ " / " + noOFTreasuresInLevel, gridSize, gridSize * 5);
 		}
@@ -587,6 +587,24 @@ public class Game extends JPanel implements Runnable {
 			y = (gameStartY) + point.y * gridSize;
 			groundList.add(new Ground(new Point(x, y), gridSize));
 		}
+	}
+
+
+	// Returns a double value of seconds to minutes:seconds
+	private String getFormattedTime(double time) {
+
+		String formattedTime = "";
+
+		int minutes = (int)(time / 60);
+		float seconds = (float)(time - (minutes * 60));
+
+		if (minutes != 0) {
+			formattedTime = "" + minutes + ":" + seconds;
+		} else {
+			formattedTime = "" + time;
+		}
+
+		return formattedTime;
 	}
 
 
