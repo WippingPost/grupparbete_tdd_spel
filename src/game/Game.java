@@ -26,7 +26,7 @@ public class Game extends JPanel implements Runnable {
 	private Dimension screenSize;
 	private int screenWidth, screenHeight;
 	private final int gridSize, gameStartX, gameStartY, gameEndX;
-    private boolean pausedState, running, levelCleared, gameOver, loadingScreen;
+    private boolean pausedState, running, levelCleared, gameOver, loadingScreen, newHighScore;
 	private int maxFps = 60;	// Target frame rate
 	private long maxFrameTime = 1000 / maxFps;	 // Frame time at maxFps
 	private int fps, frameCounter, level;
@@ -34,7 +34,7 @@ public class Game extends JPanel implements Runnable {
 	private long nowTime, deltaTime;
 
 	// Variables for timing the player on each level
-	private double timeThisLevel;
+	private double timeThisLevel, bestTimeThisLevel;
 	private boolean newLevel;
 	// Timer object for timing the player on each level
 	private Timer timer;
@@ -42,6 +42,7 @@ public class Game extends JPanel implements Runnable {
 	private Thread gameThread = null;
 	private Player player;
 	private InputManager inputManager;
+	private HighScore highScore;
 	private LevelManager levelManager;
 	private ExitDoor exitDoor;
 	private Line2D line;
@@ -81,6 +82,7 @@ public class Game extends JPanel implements Runnable {
 		font2 = new Font("Serif", Font.PLAIN, screenHeight / 55);
 
 		levelManager = new LevelManager();
+		highScore = new HighScore();
 		timer = new Timer();
 		this.inputManager = inputManager;	// Used to handle player input
 
@@ -127,10 +129,6 @@ public class Game extends JPanel implements Runnable {
 			if (newLevel) {
 				newLevel = false;
 				timer.start();
-
-			// Else update the time since level start
-			} else {
-				timeThisLevel = timer.getPassedTime();
 			}
 
 			// Did the player press any keys?
@@ -308,6 +306,13 @@ public class Game extends JPanel implements Runnable {
 				levelCleared = true;
 				deltaTime = System.currentTimeMillis();
 				timer.stop();  // Stops the timer for played time
+				timeThisLevel = timer.getFinalTime();
+				// Did player get a new best time for this level?
+				if (highScore.getCurrentHighScore(level) == -1
+						|| (timeThisLevel < highScore.getCurrentHighScore(level))) {
+					newHighScore = true;
+					highScore.setNewHighScore(level, timeThisLevel);
+				}
 				pausedState = true;
 			}
 			exitDoor.update();
@@ -392,9 +397,19 @@ public class Game extends JPanel implements Runnable {
 		//graphics2d.drawString("FPS = " + fps, gridSize, gridSize);
 		graphics2d.setFont(font);
 		graphics2d.drawString("LEVEL " + level, gridSize, gridSize);
-		graphics2d.drawString("TIME: " + timeThisLevel, gridSize, gridSize * 3);
-		graphics2d.drawString("TREASURES STOLEN: " + treasuresCollected
-				+ " / " + noOFTreasuresInLevel, gridSize, gridSize * 5);
+		// Do we have a fastest time to show?
+		if (bestTimeThisLevel != -1) {
+			graphics2d.setColor(Color.BLUE);
+			graphics2d.drawString("FASTEST TIME: " + bestTimeThisLevel, gridSize, gridSize * 3);
+			graphics2d.setColor(Color.BLACK);
+			graphics2d.drawString("TIME: " + timer.getPassedTime(), gridSize, gridSize * 5);
+			graphics2d.drawString("TREASURES STOLEN: " + treasuresCollected
+					+ " / " + noOFTreasuresInLevel, gridSize, gridSize * 7);
+		} else {
+			graphics2d.drawString("TIME: " + timer.getPassedTime(), gridSize, gridSize * 3);
+			graphics2d.drawString("TREASURES STOLEN: " + treasuresCollected
+					+ " / " + noOFTreasuresInLevel, gridSize, gridSize * 5);
+		}
 		graphics2d.drawString("ESC = QUIT GAME", gridSize, gridSize * 28);
 
 		graphics2d.setFont(font2);
@@ -442,6 +457,18 @@ public class Game extends JPanel implements Runnable {
 			// Center text
 			x = getXForText(text, graphics2d);
 			graphics2d.drawString(text, x, gridSize * 14);
+
+			// Did player set a new best time?
+			if (newHighScore) {
+				graphics2d.setColor(Color.BLUE);
+				text = "CONGRATULATIONS!";
+				x = getXForText(text, graphics2d);
+				graphics2d.drawString(text, x, gridSize * 16);
+				text = "YOU JUST SET A NEW RECORD TIME!";
+				x = getXForText(text, graphics2d);
+				graphics2d.drawString(text, x, gridSize * 17);
+				graphics2d.setColor(Color.BLACK);
+			}
 		}
 
 		// If player clears the last level
@@ -460,6 +487,18 @@ public class Game extends JPanel implements Runnable {
 			// Center text
 			x = getXForText(text, graphics2d);
 			graphics2d.drawString("QUITING GAME!", x, gridSize * 16);
+
+			// Did player set a new best time?
+			if (newHighScore) {
+				graphics2d.setColor(Color.BLUE);
+				text = "CONGRATULATIONS!";
+				x = getXForText(text, graphics2d);
+				graphics2d.drawString(text, x, gridSize * 16);
+				text = "YOU JUST SET A NEW RECORD TIME!";
+				x = getXForText(text, graphics2d);
+				graphics2d.drawString(text, x, gridSize * 17);
+				graphics2d.setColor(Color.BLACK);
+			}
 		}
 	}
 
@@ -481,9 +520,14 @@ public class Game extends JPanel implements Runnable {
 	// Loading the level and its game objects
 	private void loadLevel(int level) {
 
+		// Setting/reseting different variables
 		levelCleared = false;
 		newLevel = true;
 		gameOver = false;
+		// Getting the current levels best time.
+		bestTimeThisLevel = highScore.getCurrentHighScore(level);
+		newHighScore = false;
+		timer.reset();
 
 		int x = 0;
 		int y = 0;
