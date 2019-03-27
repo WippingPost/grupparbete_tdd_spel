@@ -597,7 +597,6 @@ public class LevelManager {
 
 levels.add(level11);
 
-
 	}
 
 	public ArrayList<Point> getWalls() {

@@ -89,7 +89,7 @@ public class HighScore {
 
 
 	// Adding a new line to "highscore.txt"
-	private void addLineToFile(String newContent) {
+	public void addLineToFile(String newContent) {
 
 		try {
 			fileWriter = new FileWriter(FILENAME, true);
