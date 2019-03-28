@@ -17,6 +17,7 @@ public class HighScore {
 	private BufferedReader bufferedReader;
 	private FileWriter fileWriter;
 	private BufferedWriter bufferedWriter;
+	public boolean exists;
 
 
 	// Constructor
@@ -27,6 +28,7 @@ public class HighScore {
 		// Create file if it doesn't exist
 		try {
 			file.createNewFile();
+			exists = file.exists();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

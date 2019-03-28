@@ -1,6 +1,7 @@
 package Test;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -23,6 +24,14 @@ public class HighScoreTest {
 	  public TemporaryFolder folder= new TemporaryFolder();
 
 	HighScore highscore;
+	
+	@Test
+	public void HighscoreConstructorTest() {
+	
+		highscore = new HighScore();
+		assertTrue (highscore.exists);
+		
+	}
 	  
     @Test
     public void checkForHighscoreFile(){
@@ -107,6 +116,8 @@ public class HighScoreTest {
      * som används i spelet. Detta funkar, problemet är bara att jag inte lyckats radera strängen i metoden.
      * 
      */
+    
+    @Ignore
     @Test
     public void newHighscoreTest () {
     	
