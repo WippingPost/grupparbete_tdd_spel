@@ -165,12 +165,8 @@ public class HighScoreTest {
 					
 						
 						}
-						
-						
 					}
-					
-					
-							
+
 					//PW.close();
 					BR.close();
 					FR.close();
@@ -180,14 +176,84 @@ public class HighScoreTest {
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
-    		
-    		
     		assertTrue(check);
-    		
-    	
-    		
-   
-    				
     }
-    
+
+    // Testar att casta ints och doubles som strängar
+	@Test
+	public void setNewHighScoreTest(){
+    	//Arrange
+		int level = 1;
+		double time = 60.0;
+
+		//Act
+		String levelNumber = "level=" + level;
+		String newTime = "" + time;
+
+		//Assert
+		assertEquals("level=1",levelNumber);
+		assertEquals("60.0",newTime);
+	}
+
+
+
+
+
+
+
+	/*
+	@Test
+	public void getCurrentHighScoreTest(){
+    	//Arrange
+		int level = 1;
+		String line = null;
+		String string = "level=" + level;
+		double time = -1;
+		highscore = new HighScore();
+
+		//Act
+		try {
+			FileReader fileReader = new FileReader("highscore.txt");
+			BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+			try {
+				while ((line = bufferedReader.readLine()) !=null){
+					if (line.contains(string)){
+						String splitString = string + "-time=";
+						String[] temp = line.split(splitString);
+						time = Double.parseDouble(temp[1]);
+					}
+				}
+			} catch (IOException e){
+				e.printStackTrace();
+			}
+
+		} catch (IOException e){
+			e.printStackTrace();
+		}
+
+		//Assert
+
+
+
+
+	}
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
