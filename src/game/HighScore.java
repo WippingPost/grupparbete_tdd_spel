@@ -18,6 +18,7 @@ public class HighScore {
 	private FileWriter fileWriter;
 	private BufferedWriter bufferedWriter;
 	private boolean exists;
+	private boolean replacedTime = false;
 
 
 	// Constructor
@@ -37,11 +38,12 @@ public class HighScore {
 
 
 	// Writing to high score file
-	private void updateHighScoreFile(String level, String time) {
-
+	public void updateHighScoreFile(String level, String time) {
+		
+		replacedTime = false;
+		
 		String line = null;
 		String newContent = "";
-		boolean replacedTime = false;
 
 		try {
 
@@ -165,6 +167,9 @@ public class HighScore {
 
 	public boolean getExists() {
 		return exists;
+	}
+	public boolean getReplacedTime() {
+		return replacedTime;
 	}
 
 }

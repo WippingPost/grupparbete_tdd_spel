@@ -36,9 +36,28 @@ public class HighScoreTest {
 	}
 	  
 	@Test
-	public void updateHighScoreFileTest() {
+	public void updateHighScoreFileTrueTest() {
 		
+		assertFalse(highscore.getReplacedTime());
+		String Level = "1";
+		String Time = "1";
+		highscore.updateHighScoreFile(Level, Time);
+		assertTrue(highscore.getReplacedTime());
 		
+	}
+	
+	/**
+	 * stämmer inte då raderna 63-69 i HighScore är baserat på om leveln finns. Ska kolla mer på detta
+	 * Dvs replaced time ger true även om tiden inte är bättre men om leveln finns.
+	 */
+	
+	@Test
+	public void updateHighScoreFileFalseTest() {
+		assertFalse(highscore.getReplacedTime());
+		String Level = "1";
+		String Time = "2";
+		highscore.updateHighScoreFile(Level, Time);
+		assertFalse(highscore.getReplacedTime());
 	}
 	
     @Test
