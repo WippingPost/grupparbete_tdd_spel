@@ -17,7 +17,7 @@ public class HighScore {
 	private BufferedReader bufferedReader;
 	private FileWriter fileWriter;
 	private BufferedWriter bufferedWriter;
-	public boolean exists;
+	private boolean exists;
 
 
 	// Constructor
@@ -159,6 +159,12 @@ public class HighScore {
 			e.printStackTrace();
 		}
 		return time;	// Returns -1 if no high score for level exists
+	}
+
+
+
+	public boolean getExists() {
+		return exists;
 	}
 
 }

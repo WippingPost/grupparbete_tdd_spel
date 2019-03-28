@@ -25,14 +25,22 @@ public class HighScoreTest {
 
 	HighScore highscore;
 	
+	@Before
+	public void init() {
+		highscore = new HighScore();
+	}
+	
 	@Test
 	public void HighscoreConstructorTest() {
-	
-		highscore = new HighScore();
-		assertTrue (highscore.exists);
-		
+		assertTrue (highscore.getExists());
 	}
 	  
+	@Test
+	public void updateHighScoreFileTest() {
+		
+		
+	}
+	
     @Test
     public void checkForHighscoreFile(){
         //Arrange
@@ -122,7 +130,6 @@ public class HighScoreTest {
     public void newHighscoreTest () {
     	
     	boolean check = false;
-    	highscore = new HighScore();
     	String checkString = "TDD was here (:";
     	highscore.addLineToFile(checkString);
     	String str = null; 
