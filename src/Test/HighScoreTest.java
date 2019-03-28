@@ -16,7 +16,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HighscoreTest {
+public class HighScoreTest {
 
 	//Använder oss av temporaryFolder för att ta bort filer vid avslutat test
 	  @Rule
