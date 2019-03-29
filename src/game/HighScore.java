@@ -112,17 +112,14 @@ public class HighScore {
 
 		try {
 			fileWriter = new FileWriter(FILENAME);
-		
 			bufferedWriter = new BufferedWriter(fileWriter);
-			if (FILENAME.length()==0) {
-				System.out.println ("test");
-				empty = true;
-		}
 			bufferedWriter.write(newContent);
 			bufferedWriter.close();
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	
 
 	}
 

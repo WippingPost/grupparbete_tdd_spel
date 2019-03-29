@@ -84,13 +84,36 @@ public class HighScoreTest {
 		assertTrue(check);
 	}
 	
-	
+	/**
+	 * testar att tömma innehållet i highscore.txt och byta ut det mot en ny sträng
+	 */
 	@Test
 	public void replaceAllContentInFileTest() {
 		
 		String checkString = "newContent";
 		highscore.replaceAllContentInFile(checkString);
-		assertTrue(highscore.getEmpty());
+		String str = "";
+		boolean check = false;
+		try {
+			
+			FileReader FR = new FileReader ("highscore.txt");
+			BufferedReader BR = new BufferedReader(FR);
+			try {
+				while ((str = BR.readLine()) != null) {
+
+					if (str.matches(checkString)) {
+						check = true;
+					}
+				}
+				
+				BR.close();
+				FR.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} } catch (IOException e) {
+				e.printStackTrace();
+			} 
+		assertTrue(check);
 		
 	}
 	
