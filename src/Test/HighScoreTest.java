@@ -89,9 +89,10 @@ public class HighScoreTest {
 	 */
 	@Test
 	public void replaceAllContentInFileTest() {
-		
+		assertFalse(highscore.getEmpty());
 		String checkString = "newContent";
 		highscore.replaceAllContentInFile(checkString);
+		/*
 		String str = "";
 		boolean check = false;
 		try {
@@ -114,7 +115,8 @@ public class HighScoreTest {
 				e.printStackTrace();
 			} 
 		assertTrue(check);
-		
+		*/
+		assertTrue(highscore.getEmpty());
 	}
 	
     @Test

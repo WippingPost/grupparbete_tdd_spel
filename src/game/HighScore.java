@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 
 public class HighScore {
@@ -113,8 +114,16 @@ public class HighScore {
 		try {
 			fileWriter = new FileWriter(FILENAME);
 			bufferedWriter = new BufferedWriter(fileWriter);
+			File test = new File(FILENAME);
+				if (test.length()==0) {
+					System.out.println("test");
+				empty = true;
+		}
+				else 
+					System.out.println("File not empty");
 			bufferedWriter.write(newContent);
 			bufferedWriter.close();
+		
 			
 		} catch (IOException e) {
 			e.printStackTrace();
