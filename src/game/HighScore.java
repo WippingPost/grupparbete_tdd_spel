@@ -185,4 +185,5 @@ public class HighScore {
 	public boolean getEmpty() {
 		return empty;
 	}
+
 }

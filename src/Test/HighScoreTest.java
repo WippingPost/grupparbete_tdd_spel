@@ -95,6 +95,30 @@ public class HighScoreTest {
 		highscore.replaceAllContentInFile(checkString);
 		assertTrue(highscore.getEmpty());
 	}
+	/**
+	 * testet matar in förbestämt level och tid till metoden. Sen söker den i highscore.txt efter den exakta raden.
+	 */
+	@Test
+	public void setNewHighScoreTestInHighScore() {
+		boolean check = false;
+		int level = 99;
+		double time = 1;
+		highscore.setNewHighScore(level, time);
+		try {
+			FileReader FR = new FileReader ("highscore.txt");
+			BufferedReader BR = new BufferedReader(FR);
+			String str = null;
+			
+			while ((str =  BR.readLine()) !=null) {
+				if (str.matches("level=99-time=1.0")) {
+					check = true;
+				}
+			}			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		assertTrue(check);
+	}
 	
     @Test
     public void checkForHighscoreFile(){
