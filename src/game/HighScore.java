@@ -17,7 +17,7 @@ public class HighScore {
 	private BufferedReader bufferedReader;
 	private FileWriter fileWriter;
 	private BufferedWriter bufferedWriter;
-	private boolean exists;
+	private boolean exists, empty;
 	private boolean replacedTime = false;
 
 
@@ -108,11 +108,16 @@ public class HighScore {
 
 
 	// Writing all new content to "highscore.txt"
-	private void replaceAllContentInFile(String newContent) {
+	public void replaceAllContentInFile(String newContent) {
 
 		try {
 			fileWriter = new FileWriter(FILENAME);
+		
 			bufferedWriter = new BufferedWriter(fileWriter);
+			if (FILENAME.length()==0) {
+				System.out.println ("test");
+				empty = true;
+		}
 			bufferedWriter.write(newContent);
 			bufferedWriter.close();
 		} catch (IOException e) {
@@ -171,5 +176,7 @@ public class HighScore {
 	public boolean getReplacedTime() {
 		return replacedTime;
 	}
-
+	public boolean getEmpty() {
+		return empty;
+	}
 }

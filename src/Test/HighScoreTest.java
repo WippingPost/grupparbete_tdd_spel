@@ -85,6 +85,15 @@ public class HighScoreTest {
 	}
 	
 	
+	@Test
+	public void replaceAllContentInFileTest() {
+		
+		String checkString = "newContent";
+		highscore.replaceAllContentInFile(checkString);
+		assertTrue(highscore.getEmpty());
+		
+	}
+	
     @Test
     public void checkForHighscoreFile(){
         //Arrange
