@@ -144,7 +144,7 @@ public class HighScoreTest {
      * 
      */
     
-    @Ignore
+   
     @Test
     public void newHighscoreTest () {
     	
@@ -153,7 +153,7 @@ public class HighScoreTest {
     	highscore.addLineToFile(checkString);
     	String str = null; 
     		try {
-				//FileWriter FL = new FileWriter("highscore.txt", true);
+    			
 				FileReader FR = new FileReader ("highscore.txt");
 				BufferedReader BR = new BufferedReader(FR);
 			//	BufferedWriter BW = new BufferedWriter(FL);
@@ -162,11 +162,11 @@ public class HighScoreTest {
 
 						if (str.contains(checkString)) {
 							check = true;
-					
+							FileWriter FL = new FileWriter("highscore.txt");
 						
 						}
 					}
-
+					
 					//PW.close();
 					BR.close();
 					FR.close();
@@ -175,6 +175,9 @@ public class HighScoreTest {
 				}
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
     		assertTrue(check);
     }
