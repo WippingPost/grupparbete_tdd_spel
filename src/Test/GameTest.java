@@ -4,6 +4,7 @@ package Test;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import game.Game;
@@ -12,7 +13,14 @@ import game.LevelManager;
 
 public class GameTest {
 
+	LevelManager LM = new LevelManager();
+	InputManager inputManager = new InputManager();
+	Game game; 
 	
+	@Before
+	public void init() {
+		game = new Game(inputManager);
+	}
 	/*
 	 * 
 	 * Ett test för att kolla om initeringen av Threaden blir gjort utan problem
@@ -24,15 +32,14 @@ public class GameTest {
  */
 	@Test
 	public void testStartlevel() {
-
-		// Act
-		LevelManager LM = new LevelManager();
-		InputManager inputManager = new InputManager();
-		Game game = new Game(inputManager); 
-		// Assert
 		assertTrue(game.getLevel()<LM.getNumberOfLevels());
 		assertFalse(game.getLevel()>LM.getNumberOfLevels());
 	}
 
+	@Test
+	public void getLevelTest() {
+
+		assertTrue (game.getLevel()==1);
+	}
 
 }

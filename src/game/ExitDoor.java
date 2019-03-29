@@ -80,18 +80,23 @@ public class ExitDoor {
 	public boolean isActive() {
 		return isActive;
 	}
+	
 	public void isActiveTurnTrue() {
 		isActive = true;
 	}
+	
 	public boolean isVisible() {
 		return visible;
 	}
+	
 	public BufferedImage getImage() {
 		return image;
 	}
+	
 	public Rectangle getHitBox() {
 		return hitBox;
 	}
+	
 	public boolean contains(Rectangle other) {
 		return hitBox.contains(other);		// Returns true if object is completely surrounded by hitBox
 	}
