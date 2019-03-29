@@ -115,12 +115,12 @@ public class HighScore {
 			fileWriter = new FileWriter(FILENAME);
 			bufferedWriter = new BufferedWriter(fileWriter);
 			File test = new File(FILENAME);
-				if (test.length()==0) {
-					System.out.println("test");
+				if (test.length()==0) 
 				empty = true;
-		}
+		
 				else 
-					System.out.println("File not empty");
+					empty = false;
+				
 			bufferedWriter.write(newContent);
 			bufferedWriter.close();
 		

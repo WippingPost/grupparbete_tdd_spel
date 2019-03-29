@@ -85,37 +85,14 @@ public class HighScoreTest {
 	}
 	
 	/**
-	 * testar att tömma innehållet i highscore.txt och byta ut det mot en ny sträng
+	 * testar att tömma innehållet i highscore.txt och byta ut det mot en ny sträng. Problemet jag haft här var
+	 * att jag inte kunde tömma filen på korrekt sätt utan var tvungen att skapa en ny fil som skrev över den gamla.
 	 */
 	@Test
 	public void replaceAllContentInFileTest() {
 		assertFalse(highscore.getEmpty());
 		String checkString = "newContent";
 		highscore.replaceAllContentInFile(checkString);
-		/*
-		String str = "";
-		boolean check = false;
-		try {
-			
-			FileReader FR = new FileReader ("highscore.txt");
-			BufferedReader BR = new BufferedReader(FR);
-			try {
-				while ((str = BR.readLine()) != null) {
-
-					if (str.matches(checkString)) {
-						check = true;
-					}
-				}
-				
-				BR.close();
-				FR.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} } catch (IOException e) {
-				e.printStackTrace();
-			} 
-		assertTrue(check);
-		*/
 		assertTrue(highscore.getEmpty());
 	}
 	
