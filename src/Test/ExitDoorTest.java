@@ -26,19 +26,14 @@ public class ExitDoorTest {
 		assertEquals(false, actual);
 	}
 	/**
-	 * Försökte göra ett test för att testa else if satsen i update. Tänkte fysiskt ändra
-	 * visible = false för att se om jag byggt upp det rätt, men funkar inte.
+	 * Testar att visible går till true om isActive är true.
 	 */
-	@Ignore
+	
 	@Test
-	public void updateTrueTest() {
-	/*	Exit.setActive();
-		Exit.update();
-		Boolean actualActive = Exit.isActive();
-		Boolean actualVisible = Exit.isVisible();
-		assertEquals(true, actualActive);
-		assertEquals(true, actualVisible);
-		*/
+	public void updateTrueTestOnElseIfBooleanTurnTrue() {
+	
+		assertFalse(Exit.isVisible());
+		Exit.isActiveTurnTrue();
 		Exit.update();
 		assertTrue(Exit.isVisible());
 	}
