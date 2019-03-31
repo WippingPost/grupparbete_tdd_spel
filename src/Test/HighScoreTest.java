@@ -25,6 +25,12 @@ public class HighScoreTest {
 
 	HighScore highscore;
 	
+		/**
+	 * Angående alla tester i denna klass. Vissa av dessa tester kan inte köras samtidigt som andra tester i denna klass.
+	 * Vissa tester behöver ett sparat resultat i highscore.txt tex. Testa dig fram men alla test fungerar i alla fall.
+	 */
+
+	
 	@Before
 	public void init() {
 		highscore = new HighScore();
