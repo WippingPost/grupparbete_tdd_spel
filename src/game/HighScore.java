@@ -7,7 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 
 public class HighScore {
@@ -40,9 +39,9 @@ public class HighScore {
 
 	// Writing to high score file
 	public void updateHighScoreFile(String level, String time) {
-		
+
 		replacedTime = false;
-		
+
 		String line = null;
 		String newContent = "";
 
@@ -115,20 +114,20 @@ public class HighScore {
 			fileWriter = new FileWriter(FILENAME);
 			bufferedWriter = new BufferedWriter(fileWriter);
 			File test = new File(FILENAME);
-				if (test.length()==0) 
+				if (test.length()==0)
 				empty = true;
-		
-				else 
+
+				else
 					empty = false;
-				
+
 			bufferedWriter.write(newContent);
 			bufferedWriter.close();
-		
-			
+
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	
+
 
 	}
 
