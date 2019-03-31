@@ -167,7 +167,7 @@ public class Game extends JPanel implements Runnable {
 		graphics2d.drawImage(background, 0, 0, screenWidth, screenHeight, null);
 
 
-		// TODO Draw Loading Screen if active
+		//Draw Loading Screen if active
 		if (!loadingScreen) {
 
 			// Draw the game board
@@ -558,7 +558,7 @@ public class Game extends JPanel implements Runnable {
 			treasureList.add(new Treasure(new Point(x, y), gridSize));
 			noOFTreasuresInLevel ++;
 		}
-		// TODO The lasers
+		// The lasers
 		Point point1;
 		Point point2;
 		for (int i = 0; i < levelManager.getLasers().size(); i = i + 2) {	// Getting the points of the lasers as pairs, therefore increment by 2
