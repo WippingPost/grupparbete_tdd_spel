@@ -35,3 +35,11 @@ Spelet är nu helt i fullscreen mode, samt hänsyn tas till rådande skärmuppl�
 Det känns faktiskt som om vi har ett fullt fungerande spel nu.
 Det har varit ett kul och lärorikt projekt, men TDD är svårt tycker jag. Jag har mycket att lära där av mina gruppkamrater som kämpat tappert med tester, när jag inte förstått vad vi ska testa. Jag känner att jag har en stor utvecklingspotential där.
 ***************************************************************************************************************************************
+Nicklas Holmberg:
+
+För att säga det direkt: spelet blev tokbra! Det flyter fint, det finns många banor, highscore och adaptiv fullscreen är en skön krydda.
+
+Angående utvecklingsprocessen tror jag vi stundvis hamnat ur fas av olika anledningar. Huvudfokus på TDD har varit svårt att hålla. Dels för att vi, precis som i förra kursen, ville sjösätta projektet snabbt och därefter gradvis förbättra, dels för att det är svårt att skapa en helhet utan att först prova sig fram agilt. Dessutom har vi alla olika stilar när vi kodar, vilket gjort att en testmetod först har skrivits av en person, sedan ändrats av en annan och slutligen implementerats på ett helt annat sätt av en tredje (varpå vi fått ändra i efterhand).
+
+Men det är, i mitt tycke, väldigt lärorikt att ha detta projekt i bagaget ändå. För om man vänder på det har man fått experimentera väldigt mycket med testklasserna, och därmed också upptäckt nya sätt att skriva tester på.
+***************************************************************************************************************************************
