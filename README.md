@@ -43,3 +43,9 @@ Angående utvecklingsprocessen tror jag vi stundvis hamnat ur fas av olika anled
 
 Men det är, i mitt tycke, väldigt lärorikt att ha detta projekt i bagaget ändå. För om man vänder på det har man fått experimentera väldigt mycket med testklasserna, och därmed också upptäckt nya sätt att skriva tester på.
 ***************************************************************************************************************************************
+Joakim Olofsson:
+
+Hur spelet blev är jag supernöjd med, blev riktigt snyggt gjort och hade flera nivåer och funktioner. Att få in test driven utveckling blev stundtals svårt att hålla sig efter, mycket tror jag för att man fastnade i själva kodandet och kom av sig från att faktiskt fokusera utifrån testerna. Men också för att det var väldigt svårt att faktiskt få till att skriva vissa tester och förstå hur vissa delar ska testas. Så projektet kommer jag definitivt ha ikvar och utgå ifrån för det finns fortfarande en hel del delar inom TDD som jag behöver utvecklas inom.
+
+Det har dock varit super lärorikt att göra den uppgift för som sagt så det blir lite av ett annat tänkande när man utvecklar programmet.
+***************************************************************************************************************************************
