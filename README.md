@@ -16,3 +16,22 @@ Laser på valfria tider på dygnet
 Målet med spelet är att karaktären skall ta alla skatter och gå in i dörren. Ni får gärna ha fler än 1 bana (level).
 Hur?
 Denna del är ett förslag och det är ni som styr hur ni vill utveckla vidare detta. Det viktigaste är att jobba med TDD-metodik och succesivt bygga upp ert program. Fördelen med TDD i ett sådant här projekt är att risken för fel minskar betydligt, då vi har noggranna tester som testar t.ex. olagliga rörelser, är spelaren träffad av laser, kontroll av antal skatter på spelplanen osv.
+
+
+*** UTVÄRDERING ***
+
+
+*************************************************************************************************************************************
+Anders Nilsson:
+
+Vi valde från början att försöka göra ett spel som skulle vara lite roligt och utmanande att både skapa, men framförallt att spela.
+Vi valde att skapa en enkel spelmotor / spel-loop, som skulle vara enkel att bygga vidare på med nya funktioner och spelobjekt.Det är nu enkelt att skapa ny levels för den som är interesserad, och i slutversionen har vi skapat 11 levels.
+Då spelprogrammering är en passion för mig tog jag initiativ till att skapa denna spelmotor/spel-loop, och under denna inledande process måste jag erkänna att, även om jag testade min kod så var det mer under agila förhållanden än ren TDD. För att allt ska flyta på ordentligt kör vi spelet i 60 fps.
+När väl grunden var lagd har vi jobbat tillsammans med att skapa tester och spelobjekt så som Player, Laser, Timer osv.
+Vi hade kommit ganska långt på projektet när vi träffades och presenterade vad vi åstadkommit i Piteå. 
+Sedan dess har vi lagt till ett highscore-system i form av tidtagning och om man får en bättre tid än föregående på aktuell level.
+Vidare har vi istället för att använda oss av rektanglar nu lagt till grafik istället för att göra spelet mer visuellt tilltalande.
+Spelet är nu helt i fullscreen mode, samt hänsyn tas till rådande skärmupplösning, så att det blir samma upplevelse oavsett upplösning på skärm.
+Det känns faktiskt som om vi har ett fullt fungerande spel nu.
+Det har varit ett kul och lärorikt projekt, men TDD är svårt tycker jag. Jag har mycket att lära där av mina gruppkamrater som kämpat tappert med tester, när jag inte förstått vad vi ska testa. Jag känner att jag har en stor utvecklingspotential där.
+***************************************************************************************************************************************
