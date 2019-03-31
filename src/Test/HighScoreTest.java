@@ -12,10 +12,6 @@ import game.HighScore;
 import static org.junit.Assert.*;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.List;
 
 public class HighScoreTest {
 
@@ -258,66 +254,4 @@ public class HighScoreTest {
 		assertEquals("level=1",levelNumber);
 		assertEquals("60.0",newTime);
 	}
-
-
-
-
-
-
-
-	/*
-	@Test
-	public void getCurrentHighScoreTest(){
-    	//Arrange
-		int level = 1;
-		String line = null;
-		String string = "level=" + level;
-		double time = -1;
-		highscore = new HighScore();
-
-		//Act
-		try {
-			FileReader fileReader = new FileReader("highscore.txt");
-			BufferedReader bufferedReader = new BufferedReader(fileReader);
-
-			try {
-				while ((line = bufferedReader.readLine()) !=null){
-					if (line.contains(string)){
-						String splitString = string + "-time=";
-						String[] temp = line.split(splitString);
-						time = Double.parseDouble(temp[1]);
-					}
-				}
-			} catch (IOException e){
-				e.printStackTrace();
-			}
-
-		} catch (IOException e){
-			e.printStackTrace();
-		}
-
-		//Assert
-
-
-
-
-	}
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
