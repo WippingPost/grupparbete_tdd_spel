@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Point;
 import java.util.Random;
 
-import org.junit.Assert;
-
 public class Laser {
 
 	private Point point1;
@@ -61,7 +59,7 @@ public class Laser {
 	}
 
 
-	private void toggleState() {		
+	private void toggleState() {
 		isActive = !isActive;		// Changes the state of isActive
 		deltaTime = thisTime;		// Resets deltaTime
 	}
@@ -82,7 +80,7 @@ public class Laser {
 	public Color getColor() {
 		return color;
 	}
-	
+
 	public boolean getUpdate() {
 		return update;
 	}
