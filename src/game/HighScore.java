@@ -164,6 +164,7 @@ public class HighScore {
 					String splitString = string + "-time=";
 					String[] temp = line.split(splitString);
 					time = Double.parseDouble(temp[1]);
+					return time;
 				}
 
 			}

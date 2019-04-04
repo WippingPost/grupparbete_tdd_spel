@@ -498,10 +498,10 @@ public class Game extends JPanel implements Runnable {
 				graphics2d.setColor(Color.BLUE);
 				text = "CONGRATULATIONS!";
 				x = getXForText(text, graphics2d);
-				graphics2d.drawString(text, x, gridSize * 16);
+				graphics2d.drawString(text, x, gridSize * 18);
 				text = "YOU JUST SET A NEW RECORD TIME!";
 				x = getXForText(text, graphics2d);
-				graphics2d.drawString(text, x, gridSize * 17);
+				graphics2d.drawString(text, x, gridSize * 19);
 				graphics2d.setColor(Color.BLACK);
 			}
 		}
