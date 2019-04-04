@@ -79,7 +79,7 @@ public class LevelManager {
 
 		ArrayList<Point> tempLasers = new ArrayList<>();
 		// Fills up the temporary list for now
-		for (int i = 0; i <= 9; i++) {
+		for (int i = 0; i <= 19; i++) {
 			tempLasers.add(new Point(-1, -1));
 		}
 
@@ -169,6 +169,36 @@ public class LevelManager {
 					case '9':		// Fifth laser end point
 						tempLasers.set(9, currentPoint);
 						break;
+					case 'A':		// First laser start point
+						tempLasers.set(10, currentPoint);
+						break;
+					case 'B':		// First laser end point
+						tempLasers.set(11, currentPoint);
+						break;
+					case 'C':		// Second laser start point
+						tempLasers.set(12, currentPoint);
+						break;
+					case 'D':		// Second laser end point
+						tempLasers.set(13, currentPoint);
+						break;
+					case 'E':		// Third laser start point
+						tempLasers.set(14, currentPoint);
+						break;
+					case 'F':		// Third laser end point
+						tempLasers.set(15, currentPoint);
+						break;
+					case 'G':		// Fourth laser start point
+						tempLasers.set(16, currentPoint);
+						break;
+					case 'H':		// Fourth laser end point
+						tempLasers.set(17, currentPoint);
+						break;
+					case 'I':		// Fifth laser start point
+						tempLasers.set(18, currentPoint);
+						break;
+					case 'J':		// Fifth laser end point
+						tempLasers.set(19, currentPoint);
+						break;
 					}
 				}
 			}
@@ -236,6 +266,11 @@ public class LevelManager {
 		// **** '4' and '5' represent a Laser objects start- and end points
 		// **** '6' and '7' represent a Laser objects start- and end points
 		// **** '8' and '9' represent a Laser objects start- and end points
+		// **** 'A' and 'B' represent a Laser objects start- and end points
+		// **** 'C' and 'D' represent a Laser objects start- and end points
+		// **** 'E' and 'F' represent a Laser objects start- and end points
+		// **** 'G' and 'H' represent a Laser objects start- and end points
+		// **** 'I' and 'J' represent a Laser objects start- and end points
 
 
 		// The levels
@@ -595,7 +630,42 @@ public class LevelManager {
 						    "............................",
 						    "...........................X"};
 
-levels.add(level11);
+		levels.add(level11);
+
+		/*
+
+		String[] level12 = {"...........................",
+			               "............................",
+			               "............................",
+			               "............................",
+			               "............................",
+			               "............................",
+			               "............................",
+			               "............................",
+			               "............................",
+			               "............................",
+			               "............................",
+			               "............................",
+			               "............................",
+			               "............................",
+			               "............................",
+			               "............................",
+			               "............................",
+			               "............................",
+			               "............................",
+			               "............................",
+			               "............................",
+			               "............................",
+			               "............................",
+			               "............................",
+			               "............................",
+			               "............................",
+			               "............................",
+						   "............................"};
+
+		levels.add(level12);
+
+		*/
 
 	}
 
