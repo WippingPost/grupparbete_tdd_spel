@@ -35,7 +35,7 @@ public class Game extends JPanel implements Runnable {
 
 	// Variables for timing the player on each level
 	private double timeThisLevel, bestTimeThisLevel;
-	private boolean newLevel;
+	private boolean newLevel, freshGame;
 	// Timer object for timing the player on each level
 	private Timer timer;
 
@@ -49,7 +49,7 @@ public class Game extends JPanel implements Runnable {
 	private final BasicStroke BRUSH_WIDTH = new BasicStroke(2f);	// The width of the laser line
 
 	private int noOFTreasuresInLevel, treasuresCollected;
-	private Font font;
+	private Font font1;
 	private Font font2;
 
 	// Background image
@@ -77,9 +77,11 @@ public class Game extends JPanel implements Runnable {
 		gameStartY = gridSize / 2;
 		gameEndX = gameStartX + (gridSize * 30);
 
-		// Text font and size
-		font = new Font("Serif", Font.BOLD, screenHeight / 40);
-		font2 = new Font("Serif", Font.PLAIN, screenHeight / 55);
+		// Setting Font and initial size
+		// Final size will be set in game to fit screen size
+		font1 = new Font("Serif", Font.BOLD, screenHeight / gridSize);
+		font2 = new Font("Serif", Font.PLAIN, screenHeight /gridSize);
+		freshGame = true;	// True when starting fresh game, used to set font size when first starting game.
 
 		levelManager = new LevelManager();
 		highScore = new HighScore();
@@ -162,6 +164,12 @@ public class Game extends JPanel implements Runnable {
 		Graphics2D graphics2d = (Graphics2D) graphics;
 		graphics2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
+
+		// If we are just starting a new game
+		// we set the font sizes to fit current screen size
+			if (freshGame) {
+				setFontSize(graphics2d);
+			}
 
 		// Draw background
 		graphics2d.drawImage(background, 0, 0, screenWidth, screenHeight, null);
@@ -391,11 +399,8 @@ public class Game extends JPanel implements Runnable {
 
 	private void drawInformation(Graphics2D graphics2d) {
 
-		// Draw current fps
 		graphics2d.setColor(Color.BLACK);
-		graphics2d.setFont(font2);
-		//graphics2d.drawString("FPS = " + fps, gridSize, gridSize);
-		graphics2d.setFont(font);
+		graphics2d.setFont(font1);
 		graphics2d.drawString("LEVEL " + level, gridSize, gridSize);
 		// Do we have a fastest time to show?
 		if (bestTimeThisLevel != -1) {
@@ -432,7 +437,7 @@ public class Game extends JPanel implements Runnable {
 		int x;
 
 		graphics2d.setColor(Color.BLACK);
-		graphics2d.setFont(font);
+		graphics2d.setFont(font1);
 
 		// If player was hit by laser
 		if (gameOver) {
@@ -507,12 +512,46 @@ public class Game extends JPanel implements Runnable {
 	private int getXForText(String text, Graphics2D graphics2d) {
 
 		// Get the FontMetrics
-	    FontMetrics metrics = graphics2d.getFontMetrics(font);
+	    FontMetrics metrics = graphics2d.getFontMetrics(font1);
 
 	    // Determine the X coordinate for the text
 	    int x = (screenWidth - metrics.stringWidth(text)) / 2;
 
 	    return x;
+	}
+
+
+	// Setting the font size so text is fitted to screen size
+	private void setFontSize(Graphics2D graphics2d) {
+
+		// We are only setting the font sizes once per game start
+		freshGame = false;
+
+		// Finalizing font sizes
+		// font1
+		// Setting the font size to fit the widest text on screen
+		font1 = setFinalFontSize(graphics2d, "TREASURES STOLEN: 10/10", font1, ((gameStartX - gridSize) - gridSize));
+		// font2
+		// Setting the font size to fit the widest text on screen
+		font2 = setFinalFontSize(graphics2d, "* Control the burglar (little Minion) with the arrow keys!", font2,
+				(screenWidth - gridSize / 2) - (gameEndX + gridSize / 2));
+
+	}
+
+
+	// Setting the final font size to fit all screen sizes and dimensions
+	private Font setFinalFontSize(Graphics2D graphics2d, String text, Font font, int width) {
+
+		// Getting the font metrics
+		FontMetrics fontMetrics = graphics2d.getFontMetrics(font);
+
+		//Scaling down the font size so the text fit inside the width from initial size
+		while(fontMetrics.stringWidth(text) > width) {
+
+			font = font.deriveFont(font.getSize2D() - 1);
+			fontMetrics = graphics2d.getFontMetrics(font);
+		}
+		return font;
 	}
 
 
