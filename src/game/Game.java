@@ -43,6 +43,7 @@ public class Game extends JPanel implements Runnable {
 	private Player player;
 	private InputManager inputManager;
 	private HighScore highScore;
+	private OnlineHighScore onlineHighScore;
 	private LevelManager levelManager;
 	private ExitDoor exitDoor;
 	private Line2D line;
@@ -85,6 +86,7 @@ public class Game extends JPanel implements Runnable {
 
 		levelManager = new LevelManager();
 		highScore = new HighScore();
+		onlineHighScore = new OnlineHighScore();
 		timer = new Timer();
 		this.inputManager = inputManager;	// Used to handle player input
 
@@ -316,10 +318,11 @@ public class Game extends JPanel implements Runnable {
 				timer.stop();  // Stops the timer for played time
 				timeThisLevel = timer.getFinalTime();
 				// Did player get a new best time for this level?
-				if (highScore.getCurrentHighScore(level) == -1
-						|| (timeThisLevel < highScore.getCurrentHighScore(level))) {
+				if (bestTimeThisLevel == -1 || timeThisLevel < bestTimeThisLevel) {
+				//if (highScore.getCurrentHighScore(level) == -1 || (timeThisLevel < highScore.getCurrentHighScore(level))) {
 					newHighScore = true;
 					highScore.setNewHighScore(level, timeThisLevel);
+					onlineHighScore.setHighScore("CookieMonster", level, timeThisLevel);
 				}
 				pausedState = true;
 			}
@@ -564,7 +567,8 @@ public class Game extends JPanel implements Runnable {
 		newLevel = true;
 		gameOver = false;
 		// Getting the current levels best time.
-		bestTimeThisLevel = highScore.getCurrentHighScore(level);
+		bestTimeThisLevel = Double.parseDouble(onlineHighScore.getHighScore(level));
+		//bestTimeThisLevel = highScore.getCurrentHighScore(level);
 		newHighScore = false;
 		timer.reset();
 
